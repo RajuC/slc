@@ -29,3 +29,10 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
+
+# Configures Guardian  mix phx.gen.secret for secret key
+config :slc, Slc.Auth.Guardian,
+  issuer: "Slc",
+  ttl: {15, :days},
+  verify_issuer: true,
+  secret_key: "2EqlgXJBxm9rmyFLFAt+vvqYqNMhPVBZqls1vTSH4p7VI23O43EmuhSuBKL4hLnX"

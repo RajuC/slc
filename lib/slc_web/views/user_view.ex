@@ -10,11 +10,23 @@ defmodule SlcWeb.UserView do
     %{data: render_one(user, UserView, "user.json")}
   end
 
-  def render("user.json", %{user: user}) do
-    %{id: user.id,
+  def render("user.json", %{user: user, token: token}) do
+    %{
+      id: user.id,
       name: user.name,
       role: user.role,
       login_id: user.login_id,
-      password_hash: user.password_hash}
+      token: token
+    }
   end
+
+  def render("user.json", %{user: user}) do
+    %{
+      id: user.id,
+      name: user.name,
+      role: user.role,
+      login_id: user.login_id,
+    }
+  end
+
 end

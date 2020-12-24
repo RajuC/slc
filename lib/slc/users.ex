@@ -7,7 +7,8 @@ defmodule Slc.Users do
   alias Slc.Repo
 
   alias Slc.Users.User
-
+  alias  Slc.Auth.Guardian
+  import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
   @doc """
   Returns the list of users.
 
@@ -67,7 +68,15 @@ defmodule Slc.Users do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_user(%User{} = user, attrs) do
+
+  def update_user(%User{} = user, attrs, :without_password) do
+    user
+    |> User.changeset_without_password(attrs)
+    |> Repo.update()
+  end
+
+
+  def update_user(%User{} = user, attrs, :with_password) do
     user
     |> User.changeset(attrs)
     |> Repo.update()
@@ -101,4 +110,41 @@ defmodule Slc.Users do
   def change_user(%User{} = user) do
     User.changeset(user, %{})
   end
+
+
+
+  def token_sign_in_with_login_id(login_id, password) do
+    case login_id_password_auth(login_id, password) do
+      {:ok, user} ->
+        with {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
+          {:ok, user, token}
+        end
+      _ ->
+        {:error, :unauthorized}
+    end
+  end
+
+  defp login_id_password_auth(login_id, password) when is_binary(login_id) and is_binary(password) do
+    with {:ok, user} <- get_by_login_id(login_id),
+    do: verify_password(password, user)
+  end
+
+  defp get_by_login_id(login_id) when is_binary(login_id) do
+    case Repo.get_by(User, login_id: login_id) do
+      nil ->
+        dummy_checkpw()
+        {:error, :not_found}
+      user ->
+        {:ok, user}
+    end
+end
+
+defp verify_password(password, %User{} = user) when is_binary(password) do
+  if checkpw(password, user.password_hash) do
+    {:ok, user}
+  else
+    {:error, :invalid_password}
+  end
+end
+
 end
