@@ -1,17 +1,101 @@
-// We need to import the CSS so that webpack will load it.
-// The MiniCssExtractPlugin is used to separate it out into
-// its own CSS file.
-import css from "../css/app.css"
+import React, { useEffect } from 'react';
+// import { Router } from 'react-router';
+import { BrowserRouter as Router, Route, Switch, Redirect, useHistory } from 'react-router-dom';
+import { render } from "react-dom";
+import { Provider, useDispatch, useSelector } from 'react-redux';
 
-// webpack automatically bundles all modules in your
-// entry points. Those entry points can be configured
-// in "webpack.config.js".
-//
-// Import dependencies
-//
-import "phoenix_html"
+// import { alertActions } from './actions/alertActions';
+import { PrivateRoute } from './helpers/privateRoute';
+import { store } from "./helpers/store";
+// import Inventory from './components/Inventory';
+// import { LoginPage } from '../LoginPage';
+// import { RegisterPage } from '../RegisterPage';
 
-// Import local files
-//
-// Local files can be imported directly using relative paths, for example:
-// import socket from "./socket"
+// import Login from './components/Account/Login';
+// import Register from './components/Account/Register';
+import Home from './components/Home';
+import HomePage from './components/Home/HomePage';
+import NavMenu from './components/Layouts/NavMenu'; 
+import Footer from './components/Layouts/Footer';
+// import MainAd from './components/Inventory/MainAd';
+// import PostAd from './components/PostAd';
+
+import { makeStyles } from '@material-ui/core/styles';
+// import Account from './components/Account';
+
+
+const useStyles = makeStyles((theme) => ({
+    // alert: {
+    //     width: '50%',
+    //     '& > * + *': {
+    //         marginTop: theme.spacing(2),
+    //     }
+    // },
+}));
+const rootElement = document.getElementById('root');
+
+const App = () => {
+    const alert = useSelector(state => state.alert);
+    const dispatch = useDispatch();
+    const [open, setOpen] = React.useState(true);
+    const classes = useStyles();
+
+    // useEffect(() => {
+    //     history.listen((location, action) => {
+    //         // clear alert on location change
+    //         dispatch(alertActions.clear());
+    //     });
+    // }, []);
+
+    return (
+        <div>
+            <Router>
+                <NavMenu />
+                <Switch>
+                    <Route exact path="/">
+                        <Home />
+                    </Route>
+                    {/* <PrivateRoute exact path="/home">
+                        <HomePage />
+                    </PrivateRoute> */}
+                    <PrivateRoute component={HomePage} path="/home" exact />
+                    {/* <Route exact path="/inventory/all">
+                        <Inventory type="cars" />
+                    </Route>
+                    <Route exact path="/inventory/cars">
+                        <Inventory type="cars" />
+                    </Route>
+                    <Route exact path="/inventory/bikes">
+                        <Inventory type="bikes" />
+                    </Route>
+                    <Route exact path="/ad">
+                        <MainAd />
+                    </Route>
+                    <Route exact path="/postad">
+                        <PostAd />
+                    </Route>
+                    <Route exact path="/profile">
+                        <Account />
+                    </Route>
+                    <Route exact path="/login">
+                        <Login />
+                    </Route>
+                    <Route exact path="/register">
+                        <Register />
+                    </Route> */}
+                    <Redirect from="*" to="/" />
+                </Switch>
+                {/* <Footer /> */}
+            </Router>
+        </div>
+
+    )
+}
+
+
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    rootElement
+);
