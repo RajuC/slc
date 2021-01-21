@@ -4,6 +4,8 @@ import { Redirect } from "react-router";
 
 export function PrivateRoute({ component: Component, roles, ...props }) {
     const user = localStorage.getItem('slc_user');
+    console.log("(fileName)========================== user @private route", user );
+
     return (
         <Route {...props} render={innerProps =>
             user ? (

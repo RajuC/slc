@@ -3,7 +3,7 @@ defmodule Slc.UsersTest do
 
   alias Slc.Users
 
-  describe "users" do
+  describe "slc_users" do
     alias Slc.Users.User
 
     @valid_attrs %{login_id: "some login_id", name: "some name", password_hash: "some password_hash", role: "some role"}
@@ -19,9 +19,9 @@ defmodule Slc.UsersTest do
       user
     end
 
-    test "list_users/0 returns all users" do
+    test "list_slc_users/0 returns all slc_users" do
       user = user_fixture()
-      assert Users.list_users() == [user]
+      assert Users.list_slc_users() == [user]
     end
 
     test "get_user!/1 returns the user with given id" do

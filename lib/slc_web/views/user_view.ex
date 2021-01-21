@@ -16,6 +16,7 @@ defmodule SlcWeb.UserView do
       name: user.name,
       role: user.role,
       login_id: user.login_id,
+      email: user.email,
       token: token
     }
   end
@@ -26,6 +27,7 @@ defmodule SlcWeb.UserView do
       name: user.name,
       role: user.role,
       login_id: user.login_id,
+      email: user.email
     }
   end
 

@@ -28,7 +28,7 @@ defmodule SlcWeb.UserControllerTest do
   end
 
   describe "index" do
-    test "lists all users", %{conn: conn} do
+    test "lists all slc_users", %{conn: conn} do
       conn = get(conn, Routes.user_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
     end

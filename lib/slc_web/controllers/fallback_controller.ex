@@ -17,7 +17,7 @@ defmodule SlcWeb.FallbackController do
     conn
     |> put_status(:not_found)
     |> put_view(SlcWeb.ErrorView)
-    |> render(:"404")
+    |> json(%{error: "not_found"})
   end
 
   def call(conn, {:error, :unauthorized}) do
@@ -25,4 +25,12 @@ defmodule SlcWeb.FallbackController do
     |> put_status(:unauthorized)
     |> json(%{error: "unauthorized"})
   end
+
+  def call(conn, other) do
+    other |> IO.inspect(label: "#{__ENV__.module}||#{inspect(__ENV__.function)}||L:#{__ENV__.line}||--------> Error unknown: " )
+    conn
+    |> put_status(:unauthorized)
+    |> json(%{error: "unauthorized"})
+  end
+
 end

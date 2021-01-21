@@ -10,15 +10,15 @@ defmodule Slc.Users do
   alias  Slc.Auth.Guardian
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
   @doc """
-  Returns the list of users.
+  Returns the list of slc_users.
 
   ## Examples
 
-      iex> list_users()
+      iex> list_slc_users()
       [%User{}, ...]
 
   """
-  def list_users do
+  def list_slc_users do
     Repo.all(User)
   end
 
@@ -37,6 +37,15 @@ defmodule Slc.Users do
 
   """
   def get_user!(id), do: Repo.get!(User, id)
+
+  def get_user(id) do
+    case Repo.get(User, id) do
+      nil -> {:error, :not_found}
+      user -> {:ok, user}
+    end
+  end
+
+
 
   @doc """
   Creates a user.
@@ -133,7 +142,7 @@ defmodule Slc.Users do
     case Repo.get_by(User, login_id: login_id) do
       nil ->
         dummy_checkpw()
-        {:error, :not_found}
+        {:error, :invalid_login_id}
       user ->
         {:ok, user}
     end

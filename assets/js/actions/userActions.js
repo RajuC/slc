@@ -1,7 +1,7 @@
 import { userConstants } from '../constants/userConstants';
 import { userService } from '../services/userService';
-// import { alertActions } from './alertActions';
-import { history } from '../helpers';
+import { alertActions } from './alertActions';
+import { history } from '../helpers/history';
 
 export const userActions = {
     login,
@@ -24,12 +24,12 @@ function login(loginDetails, path) {
                     dispatch(success(user));
                     console.log("login users success", user);
                     history.push(path);
-                    // dispatch(alertActions.success('Login successfull'));
+                    dispatch(alertActions.success('Login successfull'));
                 },
                 error => {
                     console.log("error", error);
                     dispatch(failure(error));
-                    // dispatch(alertActions.error(error));
+                    dispatch(alertActions.error(error));
                     // history.push("/login");
                 }
             );
@@ -48,7 +48,7 @@ function userLogout(path) {
         dispatch(logout());
         console.log("user Logout success");
         history.push(path);
-        // dispatch(alertActions.success('Logout successfull'));
+        dispatch(alertActions.success('Logout successfull'));
     };
     function logout() { return { type: userConstants.LOGOUT } } 
 }
@@ -72,7 +72,7 @@ function register(user, path) {
                     console.log("register user success", user);
                     history.push(path);
                     console.log("after home page", user, path);
-                    // dispatch(alertActions.success('Registration successful'));
+                    dispatch(alertActions.success('Registration successful'));
                 },
                 error => {
                     dispatch(failure(error));
@@ -101,7 +101,7 @@ function updateUserDetails(user, path) {
                     console.log("register user success", user);
                     history.push(path);
                     console.log("after home page", user, path);
-                    // dispatch(alertActions.success('Registration successful'));
+                    dispatch(alertActions.success('Registration successful'));
                 },
                 error => {
                     dispatch(failure(error));
@@ -129,7 +129,7 @@ function updateUserPwdDetails(user, path) {
                     console.log("register user success", user);
                     history.push(path);
                     console.log("after home page", user, path);
-                    // dispatch(alertActions.success('Registration successful'));
+                    dispatch(alertActions.success('Registration successful'));
                 },
                 error => {
                     dispatch(failure(error));
@@ -156,7 +156,7 @@ function getAll() {
                 users => dispatch(success(users)),
                 error => {
                     dispatch(failure(error));
-                    // dispatch(alertActions.error(error))
+                    dispatch(alertActions.error(error))
                 }
             );
     };

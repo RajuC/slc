@@ -6,15 +6,24 @@ defmodule SlcWeb.UserController do
   alias Slc.Auth.Guardian
   action_fallback SlcWeb.FallbackController
 
-## TBD need to add the bearer token auth to this route
+  ## TBD need to add the bearer token auth to this route
   def index(conn, _params) do
-    users = Users.list_users()
-    render(conn, "index.json", users: users)
+    with {:ok, %User{}} <- Guardian.Plug.current_resource(conn) do
+      users = Users.list_slc_users()
+      render(conn, "index.json", users: users)
+    end
   end
 
   def sign_up(conn, %{"user" => user_params}) do
+    # with %User{} = userr <- Guardian.Plug.current_resource(conn),
     with {:ok, %User{} = user} <- Users.create_user(user_params),
          {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
+      # userr
+      # |> IO.inspect(
+      #   label:
+      #     "#{__ENV__.module}||#{inspect(__ENV__.function)}||L:#{__ENV__.line}||--------> Userrr: "
+      # )
+
       conn
       |> put_status(:created)
       |> render("user.json", %{user: user, token: token})
@@ -29,37 +38,40 @@ defmodule SlcWeb.UserController do
     end
   end
 
-## TBD will be removed after adding bearer token flow
+  ## TBD will be removed after adding bearer token flow
   def show(conn, %{"id" => id}) do
-    user = Users.get_user!(id)
-    render(conn, "show.json", user: user)
+    with {:ok, %User{}} <- Guardian.Plug.current_resource(conn),
+         {:ok, %User{} = user} <- Users.get_user(id) do
+      render(conn, "show.json", user: user)
+    end
   end
 
   def get_user(conn, _params) do
-    user = Guardian.Plug.current_resource(conn)
-    conn |> render("user.json", %{user: user})
-  end
-
-  def update_details(conn, %{"user" => user_params}) do
-    user = Guardian.Plug.current_resource(conn)
-
-    with {:ok, %User{} = user} <- Users.update_user(user, user_params, :without_password) do
-      render(conn, "show.json", user: user)
+    with {:ok, %User{} = user} <- Guardian.Plug.current_resource(conn) do
+      conn |> render("user.json", %{user: user})
     end
   end
 
-  def update_password(conn, %{"user" => user_params}) do
-    user = Guardian.Plug.current_resource(conn)
-
-    with {:ok, %User{} = user} <- Users.update_user(user, user_params, :with_password) do
-      render(conn, "show.json", user: user)
+  def update_details(conn, %{"id" => id, "user" => user_params}) do
+    with {:ok, %User{}} <- Guardian.Plug.current_resource(conn),
+         %User{} = user <- Users.get_user!(id),
+         {:ok, %User{} = mod_user} <- Users.update_user(user, user_params, :without_password) do
+      render(conn, "show.json", user: mod_user)
     end
   end
 
-  def delete(conn, _params) do
-    user = Guardian.Plug.current_resource(conn)
+  def update_password(conn, %{"id" => id, "user" => user_params}) do
+    with {:ok, %User{}} <- Guardian.Plug.current_resource(conn),
+         %User{} = user <- Users.get_user!(id),
+         {:ok, %User{} = mod_user} <- Users.update_user(user, user_params, :with_password) do
+      render(conn, "show.json", user: mod_user)
+    end
+  end
 
-    with {:ok, %User{}} <- Users.delete_user(user) do
+  def delete(conn, %{"id" => id}) do
+    with {:ok, %User{}} <- Guardian.Plug.current_resource(conn),
+         %User{} = user <- Users.get_user!(id),
+         {:ok, %User{}} <- Users.delete_user(user) do
       send_resp(conn, :no_content, "")
     end
   end

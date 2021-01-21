@@ -45,7 +45,7 @@ defmodule Slc.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:comeonin, "~> 4.0"},
       {:bcrypt_elixir, "~> 1.0"},
-      # {:cors_plug, "~> 2.0"},
+      {:cors_plug, "~> 2.0"},
       {:guardian, "~> 1.0"}
     ]
   end
