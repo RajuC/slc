@@ -26,6 +26,7 @@ import { userActions } from "../../actions";
 // import { useHistory } from 'react-router-dom';
 import { validationService } from "../../services/validationService";
 import { Alert } from "@material-ui/lab";
+import CustomButton from "../Layouts/CustomButton";
 // import Page from "../Layouts/Page";
 // import Logo from 'src/components/Logo';
 // import useAuth from 'src/hooks/useAuth';
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.dark,
     display: "flex",
     flexDirection: "column",
-    minHeight: "100vh",
+    // minHeight: "100vh",
   },
   banner: {
     backgroundColor: theme.palette.background.paper,
@@ -208,10 +209,10 @@ const Login = () => {
   return (
     <div className={classes.root} title="Login">
       <Container className={classes.cardContainer} maxWidth="sm">
-        <Box mb={8} display="flex" justifyContent="center">
+        <Box mt={4} display="flex" justifyContent="center">
           {/* <RouterLink to="/login"> */}
           <Typography color="textPrimary" gutterBottom variant="h5">
-            A2Z Kars Internal Portal
+            Sri Laxmi Cars Portal
           </Typography>
 
           {/* </RouterLink> */}
@@ -222,7 +223,7 @@ const Login = () => {
               alignItems="center"
               display="flex"
               justifyContent="space-between"
-              mb={3}
+              mb={1}
             >
               <div>
                 <Typography color="textPrimary" gutterBottom variant="h5">
@@ -291,16 +292,16 @@ const Login = () => {
                 </Box>
               )} */}
                 <Box mt={2}>
-                  <Button
+                  <CustomButton
                     color="primary"
                     //   disabled={isSubmitting}
                     fullWidth
-                    size="large"
+                    size="small"
                     type="submit"
                     variant="contained"
                   >
                     Log In
-                  </Button>
+                  </CustomButton>
                 </Box>
                 <Box mt={2}>
                   <Alert severity="info">

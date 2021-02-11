@@ -4,7 +4,9 @@ import axios from "../helpers/axios";
 export const apiService = {
   getLatLong,
   listCarBrands,
+  listBikeBrands,
   listCarModels,
+  listBikeModels,
   listCarVariants,
   listUsers,
   postAd,
@@ -14,19 +16,29 @@ export const apiService = {
   getActiveAdById,
   deleteAdById,
   updateAdById,
-  getUserById
+  getUserById,
 };
 
 function getLatLong(place_id) {
-  return axios.get(`https://maps.googleapis.com/maps/api/geocode/json?place_id=${place_id}&key=AIzaSyA-SvePR8DwM531CEbfJAipwszxCJwdvXk`);
+  return axios.get(
+    `https://maps.googleapis.com/maps/api/geocode/json?place_id=${place_id}&key=AIzaSyA-SvePR8DwM531CEbfJAipwszxCJwdvXk`
+  );
 }
 
 function listCarBrands(type) {
   return axios.get(`/car_attributes/brands/${type}`);
 }
 
+function listBikeBrands(type) {
+  return axios.get(`/bike_attributes/brands/${type}`);
+}
+
 function listCarModels(type, brand) {
   return axios.get(`/car_attributes/models/${type}/${brand}`);
+}
+
+function listBikeModels(type, brand) {
+  return axios.get(`/bike_attributes/models/${type}/${brand}`);
 }
 
 function listCarVariants(type, brand, model) {
@@ -80,7 +92,6 @@ function updateAdById(ad_id, ad) {
     headers: { ...authHeader(), "Content-Type": "application/json" },
   });
 }
-
 
 function getUserById(user_id) {
   return axios.get(`/users/${user_id}`, {

@@ -5,6 +5,7 @@ import { history } from "../helpers";
 import { apiService } from "../services/apiService";
 
 export const postAdActions = {
+  addEditListing,
   addAskingPrice,
   addSellerNotes,
   addSellerPhNum,
@@ -12,7 +13,8 @@ export const postAdActions = {
   addSellerName,
   addVehicleType,
   // addVehicleDetails,
-  addVehicleFeatures,
+  addVehicleFeature,
+  removeVehicleFeature,
   addVehicleLocation,
   addVehicleImages,
   // deleteVehicleImage,
@@ -101,6 +103,23 @@ function submitAdDetails(ad, path) {
   }
 }
 
+
+function addEditListing(key, listingDetails) {
+  return { type: postAdConstants.ADD_EDIT_LISTING, key, listingDetails };
+}
+
+function addVehicleFeature(vehicleFeature) {
+  return { type: postAdConstants.ADD_VEHICLE_FEATURE, vehicleFeature };
+}
+
+function removeVehicleFeature(vehicleFeatureKey) {
+  return { type: postAdConstants.REMOVE_VEHICLE_FEATURE, vehicleFeatureKey };
+}
+
+
+
+
+
 function addAskingPrice(askingPrice) {
   return { type: postAdConstants.ADD_VEHICLE_ASKING_PRICE, askingPrice };
 }
@@ -165,10 +184,6 @@ function addVehicleTransmission(transmission) {
 
 function addVehicleNoOfOwners(noOfOwners) {
   return { type: postAdConstants.ADD_VEHICLE_NO_OF_OWNERS, noOfOwners };
-}
-
-function addVehicleFeatures(vehicleFeatures) {
-  return { type: postAdConstants.ADD_VEHICLE_FEATURES, vehicleFeatures };
 }
 
 function addVehicleLocation(vehicleLocation) {

@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   dropzone: {
     paddingRight: "10%",
     marginTop: "5%",
-    backgroundColor: "green",
+    // backgroundColor: "green",
     // maxWidth:"md"
   },
   preview: {

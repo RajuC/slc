@@ -22,13 +22,15 @@ import NotFound from "./components/Layouts/NotFound";
 import Footer from "./components/Layouts/Footer";
 // import MainAd from './components/Inventory/MainAd';
 import PostAd from "./components/PostAd";
-import EditAd from "./components/EditAd";
-import Ads from "./components/Ads";
-
+import AddEditListing from "./components/AddEditListing";
+import AllAds from "./components/Ads/AllAds";
 import { makeStyles } from "@material-ui/core/styles";
+import ActiveAds from "./components/Ads/ActiveAds";
 import MainAd from "./components/Ads/MainAd";
 // import Account from './components/Account';
 import "../css/app.css";
+import SideBar from "./components/Ads/ActiveAds/SideBar";
+
 
 const useStyles = makeStyles((theme) => ({
   // alert: {
@@ -56,23 +58,35 @@ const App = () => {
   return (
     <div>
       <Router history={history}>
-        <NavMenu />
+        {/* <NavMenu /> */}
         <Switch>
           <Route exact path="/">
+            <NavMenu />
             <Home />
+            <Footer />
           </Route>
           <Route exact path="/login">
+            <NavMenu />
             <Login />
+            <Footer />
+          </Route>
+          <Route exact path="/listings/:ads_type">
+            <ActiveAds />
+          </Route>
+          <Route exact path="/sideBar">
+            <SideBar />
           </Route>
           <Route exact path="/404">
+            <NavMenu />
             <NotFound />
+            <Footer />
           </Route>
-          <PrivateRoute component={HomePage} path="/home" exact />
           <PrivateRoute component={PostAd} path="/postAd" exact />
-          <PrivateRoute component={Ads} path="/listings" exact />
+          <PrivateRoute component={AllAds} path="/listings" exact />
           <PrivateRoute component={Register} path="/register" exact />
-          <PrivateRoute component={EditAd} path="/listing/:id/edit" exact />
+          <PrivateRoute component={AddEditListing} path="/listing/:id/edit" exact />
           <PrivateRoute component={MainAd} path="/listing/:id/view" exact />
+          <PrivateRoute component={AddEditListing} path="/post/listing" exact />
           {/* <PrivateRoute component={MainAd} path="/listing/:id" exact /> */}
 
           {/* <PrivateRoute exact path="/home">
@@ -102,10 +116,11 @@ const App = () => {
                     <Route exact path="/register">
                         <Register />
                     </Route> */}
+          <Redirect exact from="/listings/reload/bikes" to="/listings/bikes" />
+          <Redirect exact from="/listings/reload/cars" to="/listings/cars" />
           <Redirect exact from="/listings/reload" to="/listings" />
           <Redirect from="*" to="/404" />
         </Switch>
-        <Footer />
       </Router>
     </div>
   );

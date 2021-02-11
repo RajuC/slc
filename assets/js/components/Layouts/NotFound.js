@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NotFound = () => {
-  console.log("(fileName)========================== NotFound Component" );
+  console.log("(NotFound)========================== NotFound Component" );
   const classes = useStyles();
   const theme = useTheme();
   const mobileDevice = useMediaQuery(theme.breakpoints.down('sm'));

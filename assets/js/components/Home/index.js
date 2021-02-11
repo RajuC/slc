@@ -42,9 +42,8 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const state = useSelector(state => state);
-  console.log("(Home)========================== state", state);
-  const currentUser = useSelector(state => state.currentUser);
-  const dispatch = useDispatch();
+  // const currentUser = useSelector(state => state.currentUser);
+  // const dispatch = useDispatch();
 
 //   const { history } = props;
   return (
@@ -55,14 +54,15 @@ const Home = () => {
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              Album layout
+              Sri Laxmi Cars
             </Typography>
-            <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Something short and leading about the collection below—its contents, the creator, etc.
-              Make it short and sweet, but not too short so folks don&apos;t simply skip over it
-              entirely.
+            <Typography variant="h5" align="center" color="textSecondary">
+            Phone: +91 9908109814
             </Typography>
-            <div className={classes.heroButtons}>
+            <Typography variant="h5" align="center" color="textSecondary">
+            Email: ckumar.slc@gmail.com
+            </Typography>
+            {/* <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
                   <Button variant="contained" color="primary" href="/inventory/cars">
@@ -75,13 +75,13 @@ const Home = () => {
                   </Button>
                 </Grid>
               </Grid>
-            </div>
+            </div> */}
           </Container>
         </div>
 
-        <Container maxWidth="lg">
+        {/* <Container maxWidth="lg">
           <h2 align="center"> FEATURED ITEMS</h2>
-        </Container>
+        </Container> */}
         <Container maxWidth="md">
           <VehicleTypeTabs />
         </Container>

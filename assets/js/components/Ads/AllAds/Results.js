@@ -28,9 +28,11 @@ import {
   DialogContentText,
   DialogTitle,
   useMediaQuery,
+  Tooltip,
 } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
-import CustomButton from "../Layouts/CustomButton";
+import CustomButton from "../../Layouts/CustomButton";
+// import { Alert } from "@material-ui/lab";
 
 import {
   Image as ImageIcon,
@@ -38,7 +40,7 @@ import {
   ArrowRight as ArrowRightIcon,
   Search as SearchIcon,
 } from "react-feather";
-import Label from "../Layouts/Label";
+import Label from "../../Layouts/Label";
 
 // const Button = withStyles((theme) => ({
 //   root: {
@@ -130,21 +132,22 @@ const sortOptions = [
   },
 ];
 
+
 const getStatusLabel = (ad_status) => {
   const map = {
-    active: {
+    "Active": {
       text: "Active",
       color: "success",
     },
-    inactive: {
+    "Inactive": {
       text: "InActive",
       color: "error",
     },
-    under_review: {
+    "Under Review": {
       text: "Under Review",
       color: "warning",
     },
-    sold: {
+    "Sold": {
       text: "Sold",
       color: "warning",
     },
@@ -574,12 +577,13 @@ const Results = ({ className, ads, ...rest }) => {
                 <TableCell>Km Driven</TableCell>
                 <TableCell>TimeStamp</TableCell>
                 <TableCell>Status</TableCell>
-                <TableCell align="right">Actions</TableCell>
+                <TableCell align="center">Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {paginatedAds.map((ad) => {
                 const isAdSelected = selectedAds.includes(ad.id);
+                console.log("(Results ad)========================== ", ad );
 
                 return (
                   <TableRow hover key={ad.id} selected={isAdSelected}>
@@ -599,22 +603,25 @@ const Results = ({ className, ads, ...rest }) => {
                         // to={{ pathname: `/listing/${ad.id}/view`, state: { basicDetails: ad } }}
                         to={`/listing/${ad.id}/view`}
                       >
-                        {ad.id}
+                        <Label color="success">{ad.id}</Label>
                       </Link>
                     </TableCell>
                     <TableCell>
-                      <Link
-                        variant="body2"
-                        color="textPrimary"
-                        component={RouterLink}
-                        underline="hover"
-                        // to={{ pathname: `/listing/${ad.id}/view`, state: { basicDetails: ad } }}
-                        to={`/listing/${ad.id}/view`}
-                      >
-                        {ad.name}
-                      </Link>
+                      <Tooltip title={ad.name}>
+                        <Link
+                          variant="body2"
+                          color="textPrimary"
+                          component={RouterLink}
+                          underline="always"
+                          size="small"
+                          // to={{ pathname: `/listing/${ad.id}/view`, state: { basicDetails: ad } }}
+                          to={`/listing/${ad.id}/view`}
+                        >
+                          {ad.name.slice(0, 15) + "..."}
+                        </Link>
+                      </Tooltip>
                     </TableCell>
-                    <TableCell>{ad.fuel_type.toUpperCase()}</TableCell>
+                    <TableCell>{ad.fuel_type}</TableCell>
                     <TableCell>
                       {"Rs " +
                         numeral(ad.asking_price).format(`0,0.00`) +
@@ -624,13 +631,13 @@ const Results = ({ className, ads, ...rest }) => {
                     <TableCell>{ad.km_driven}</TableCell>
                     <TableCell>{ad.inserted_at}</TableCell>
                     <TableCell>{getStatusLabel(ad.ad_status)}</TableCell>
-                    <TableCell align="right">
-                      <CustomButton
+                    <TableCell align="left">
+                      {/* <CustomButton
                         className={classes.bulkAction}
                         href={`/listing/${ad.id}/view`}
                       >
                         View
-                      </CustomButton>
+                      </CustomButton> */}
                       <CustomButton
                         className={classes.bulkAction}
                         href={`/listing/${ad.id}/edit`}
@@ -643,7 +650,7 @@ const Results = ({ className, ads, ...rest }) => {
                           handleClickOpen();
                         }}
                       >
-                        Delete
+                        Del
                       </CustomButton>
                       <Dialog
                         fullScreen={fullScreen}

@@ -26,6 +26,7 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { userActions } from "../../actions";
 import { validationService } from "../../services/validationService";
 import { Alert } from "@material-ui/lab";
+import CustomButton from "../Layouts/CustomButton";
 // import Page from "../Layouts/Page";
 
 const user = { name: "raju", avatar: "NA", tier: "premium" };
@@ -58,6 +59,13 @@ const useStyles = makeStyles((theme) => ({
     height: 30,
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
+  },
+  card: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    width: "75%",
+    marginLeft:"15%"
   },
   cardContainer: {
     // paddingBottom: 40,
@@ -191,7 +199,7 @@ const Register = () => {
   return (
     <div className={classes.root} title="Register">
       <Container className={classes.cardContainer} maxWidth="sm">
-        <Box mb={3} display="flex" justifyContent="center">
+        <Box mt={4} display="flex" justifyContent="center">
           {/* <RouterLink to="/login"> */}
           <Typography color="textPrimary" gutterBottom variant="h5">
             Register a new user
@@ -199,7 +207,7 @@ const Register = () => {
 
           {/* </RouterLink> */}
         </Box>
-        <Card>
+        <Card className={classes.card}>
           <CardContent className={classes.cardContent}>
             {/* <Box
               alignItems="center"
@@ -216,7 +224,7 @@ const Register = () => {
                 </Typography>
               </div>
             </Box> */}
-            <Box flexGrow={1} mt={3}>
+            <Box flexGrow={1} mt={2}>
               <form onSubmit={handleSubmit} noValidate>
                 <TextField
                   // error={Boolean(touched.email && errors.email)}
@@ -227,6 +235,7 @@ const Register = () => {
                   margin="normal"
                   name="name"
                   type="text"
+                  size="small"
                   onChange={(e) =>
                     handleChange("name", { value: e.target.value })
                   }
@@ -244,6 +253,7 @@ const Register = () => {
                   id="email"
                   label="Email Id"
                   name="email"
+                  size="small"
                   // autoComplete="email"
                   onChange={(e) =>
                     handleChange("email", { value: e.target.value })
@@ -261,6 +271,7 @@ const Register = () => {
                   margin="normal"
                   name="login_id"
                   type="text"
+                  size="small"
                   onChange={(e) =>
                     handleChange("login_id", { value: e.target.value })
                   }
@@ -286,6 +297,7 @@ const Register = () => {
                       {...params}
                       margin="normal"
                       label="Role"
+                      size="small"
                       error={registerDetails.role.error}
                       //   error={(postAd.condition && postAd.condition.error) ? postAd.condition.error : carDetails.condition.error}
                       helperText={registerDetails.role.errorText}
@@ -301,6 +313,7 @@ const Register = () => {
                   variant="outlined"
                   required
                   margin="normal"
+                  size="small"
                 >
                   <InputLabel htmlFor="post-login-pwd">Password</InputLabel>
                   <OutlinedInput
@@ -333,16 +346,16 @@ const Register = () => {
                 </Box>
               )} */}
                 <Box mt={6}>
-                  <Button
-                    color="secondary"
+                  <CustomButton
+                    // color="secondary"
                     //   disabled={isSubmitting}
                     fullWidth
-                    size="large"
+                    size="small"
                     type="submit"
                     variant="contained"
                   >
                     Register
-                  </Button>
+                  </CustomButton>
                 </Box>
               </form>
             </Box>

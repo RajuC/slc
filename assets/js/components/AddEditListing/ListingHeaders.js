@@ -7,19 +7,24 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    marginTop: 50,
+    marginBottom: 30,
+  },
+  appBar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    backgroundColor: "#153e4d",
+    // minHeight: "15px"
   },
   menuButton: {
     marginRight: theme.spacing(2),
   },
 }));
 
-export default function PostHeader({ title }) {
+export default function ListingHeaders({ title }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.appBar}>
         <Toolbar variant="dense">
           <Typography variant="h6" color="inherit">
             {title}

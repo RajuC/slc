@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import PropTypes from "prop-types";
-import clsx from "clsx";
-import numeral from "numeral";
-import { MapPin as MapPinIcon } from "react-feather";
-import { useGoogleMaps } from "react-hook-google-maps";
+
 import {
   Box,
   Button,
@@ -20,10 +16,12 @@ import {
 } from "@material-ui/core";
 import CustomButton from "../../Layouts/CustomButton";
 import Label from "../../Layouts/Label";
+import GoogleMap from "../../Layouts/GoogleMap";
 
 const useStyles = makeStyles((theme) => ({
-  root: { backgroundColor: "#153e4d", color: "white", marginTop: "6%" },
+  root: { backgroundColor: "#153e4d", color: "white", marginTop: "5%" },
   details: { padding: theme.spacing(1) },
+  viewHideSd: { marginLeft: "100px", color: "#169f36" },
 }));
 
 const SellerDetails = ({ detail, value }) => (
@@ -47,7 +45,13 @@ const SellerDetails = ({ detail, value }) => (
   </Grid>
 );
 
-const AdSellerDetails = ({ postId, contactDetails, location }) => {
+const AdSellerDetails = ({
+  postId,
+  seller_name,
+  seller_email,
+  seller_phone,
+  location,
+}) => {
   const classes = useStyles();
   const [showSellerDetails, setShowSellerDetails] = useState(false);
   const [sellerDetails, setSellerDetails] = useState({
@@ -56,132 +60,118 @@ const AdSellerDetails = ({ postId, contactDetails, location }) => {
     email: "",
   });
 
-  const { ref, map, google } = useGoogleMaps(
-    // Use your own API key, you can get one from Google (https://console.cloud.google.com/google/maps-apis/overview)
-    "AIzaSyA-SvePR8DwM531CEbfJAipwszxCJwdvXk",
-    // NOTE: even if you change options later
-    {
-      center: { lat: 0, lng: 0 },
-      zoom: 3,
-    }
-  );
-
-  console.log(map); // instance of created Map object (https://developers.google.com/maps/documentation/javascript/reference/map)
-  console.log(google);
-
   const hideSellerDetails = () => {
-    var email = contactDetails.email;
-    var phone = contactDetails.phone_number;
-    phone = phone.replace(phone.substring(5, 10), "*****");
+    seller_phone = seller_phone.replace(seller_phone.substring(5, 10), "*****");
 
-    let hide = email.split("@")[0].length - 2; //<-- number of characters to hide
+    let hide = seller_email.split("@")[0].length - 2; //<-- number of characters to hide
     var r = new RegExp(".{" + hide + "}@", "g");
-    email = email.replace(r, "***@");
+    seller_email = seller_email.replace(r, "***@");
 
     setSellerDetails({
       ...sellerDetails,
-      name: contactDetails.name,
-      email: email,
-      phone_number: phone,
+      name: seller_name,
+      email: seller_email,
+      phone_number: seller_phone,
     });
     setShowSellerDetails(false);
   };
 
   const viewSellerDetails = () => {
-    setSellerDetails(contactDetails);
+    setSellerDetails({
+      ...sellerDetails,
+      name: seller_name,
+      email: seller_email,
+      phone_number: seller_phone,
+    });
     setShowSellerDetails(true);
   };
 
   useEffect(() => {
-    if (contactDetails) {
+    if (seller_name && seller_email && seller_phone) {
       hideSellerDetails();
     }
   }, []);
 
   return (
-    <>
-      <Card className={classes.root}>
-        <CardHeader title="Vehicle Location" />
-        <Divider />
-        <CardContent>
-          <Paper variant="outlined">
-            <Box className={classes.details}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <Grid container spacing={2} direction="column" alignItems="center">
-                  <Grid item>
-                      <div ref={ref} style={{ minWidth: 200, minHeight: 150 }} />
-                    </Grid>
-                    <Grid item>
-                      <MapPinIcon color="green" size={20} />
-                      <Typography
-                        variant="body2"
-                        display="inline"
-                        style={{ marginLeft: "10px" }}
-                      >
-                        {location}
-                      </Typography>
-                    </Grid>
-                    
-                  </Grid>
-                </Grid>
-              </Grid>
-            </Box>
-          </Paper>
-        </CardContent>
-      </Card>
-      <Card className={classes.root}>
-        <CardHeader title="Contact Seller" />
-        <Divider />
-        <CardContent>
-          <Paper variant="outlined">
-            <Box className={classes.details}>
-              <Grid container spacing={2}>
-                <SellerDetails detail="name" value={sellerDetails.name} />
-                <SellerDetails detail="email" value={sellerDetails.email} />
-                <SellerDetails
-                  detail="phone"
-                  value={"+91 " + sellerDetails.phone_number}
+    <Card className={classes.root}>
+      <CardHeader title="Contact Seller" />
+      <Divider />
+      <CardContent>
+        <Paper variant="outlined">
+          <Box className={classes.details}>
+            <Grid container spacing={2}>
+              <SellerDetails detail="name" value={sellerDetails.name} />
+              <SellerDetails detail="email" value={sellerDetails.email} />
+              <SellerDetails
+                detail="phone"
+                value={"+91 " + sellerDetails.phone_number}
+              />
+
+              {!showSellerDetails && (
+                <Link
+                  className={classes.viewHideSd}
+                  component="button"
+                  underline="always"
+                  variant="body2"
+                  onClick={() => {
+                    viewSellerDetails();
+                  }}
+                >
+                  View Contact Details..
+                </Link>
+              )}
+              {showSellerDetails && (
+                <Link
+                  className={classes.viewHideSd}
+                  component="button"
+                  underline="always"
+                  variant="body2"
+                  onClick={() => {
+                    hideSellerDetails();
+                  }}
+                >
+                  Hide Contact Details..
+                </Link>
+              )}
+              <SellerDetails
+                detail="address"
+                value={
+                  "NFC Main Rd, APHB Colony, Moula Ali, Secunderabad, Telangana 500040, India"
+                }
+              />
+              <Grid item xs={12}>
+                <GoogleMap
+                  latt={location.lat}
+                  long={location.long}
+                  className={classes.gmap}
                 />
+                {/* <div
+                  ref={ref}
+                  style={{
+                    minWidth: 220,
+                    minHeight: 180,
+                    border: "2px solid grey",
+                  }}
+                /> */}
               </Grid>
-            </Box>
-          </Paper>
-          <Box mt={2} display="flex" justifyContent="flex-end">
-            {!showSellerDetails && (
-              <CustomButton
-                onClick={() => {
-                  viewSellerDetails();
-                }}
-              >
-                View Details
-              </CustomButton>
-            )}
-            {showSellerDetails && (
-              <CustomButton
-                onClick={() => {
-                  hideSellerDetails();
-                }}
-              >
-                Hide Details
-              </CustomButton>
-            )}
+            </Grid>
           </Box>
-          <Box mt={2}>
-            <Typography variant="body2" color="textSecondary">
-              Please read our
-              <Link color="primary" component={RouterLink} to="#">
-                Terms&conditions
-              </Link>
-              .
-            </Typography>
-          </Box>
-          <Divider />
-          <Box mt={3} display="flex" justifyContent="flex-end">
-            <Label color="success">{"Post Id: " + postId}</Label>
-          </Box>
-        </CardContent>
-      </Card>
-    </>
+        </Paper>
+        <Box mt={2}>
+          <Typography variant="body2" color="textSecondary">
+            Please read our
+            <Link color="primary" component={RouterLink} to="#">
+              Terms&conditions
+            </Link>
+            .
+          </Typography>
+        </Box>
+        <Divider />
+        <Box mt={3} display="flex" justifyContent="flex-end">
+          <Label color="success">{"Post Id: " + postId}</Label>
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 

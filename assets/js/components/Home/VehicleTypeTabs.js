@@ -1,17 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
-// import { makeStyles, useTheme } from "@material-ui/core/styles";
-// import AppBar from "@material-ui/core/AppBar";
-// import Tabs from "@material-ui/core/Tabs";
-// import Tab from "@material-ui/core/Tab";
-// import Typography from "@material-ui/core/Typography";
-// import Box from "@material-ui/core/Box";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import CarsIcon from '@material-ui/icons/DriveEta';
 import BikesIcon from '@material-ui/icons/Motorcycle';
-import Ads from '../Inventory/Ads';
-import Adds from '../Inventory/Adds';
+import CarAds from '../Ads/ActiveAds/CarAds';
+import BikeAds from '../Ads/ActiveAds/BikeAds';
 
 
 import {
@@ -65,9 +59,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     // backgroundColor: 'green',
     // paddingTop: 0,
+    // padding: 0
   },
   tabPanel: {
-    paddingTop: 50,
+    paddingTop: 10,
   }
 }));
 
@@ -107,10 +102,10 @@ const VehicleTypeTabs = () => {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction} className={classes.tabPanel}>
-          <Ads />
+          <CarAds />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction} className={classes.tabPanel}>
-        <Adds />
+        <BikeAds />
         </TabPanel>
         {/* <TabPanel value={value} index={2} dir={theme.direction} className={classes.tabPanel}>
           <Ads />

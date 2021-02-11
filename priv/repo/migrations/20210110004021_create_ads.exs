@@ -16,9 +16,12 @@ defmodule Slc.Repo.Migrations.CreateAds do
       add :fuel_type, :string
       add :transmission, :string
       add :no_of_owners, :string
-      add :features, {:array, :map}
+      add :features, :map
       add :location, :map
-      add :seller_details, :map
+      add :seller_name, :string
+      add :seller_phone, :string
+      add :seller_email, :string
+      add :extra_notes, :text
       add :images, {:array, :map}
       add :asking_price, :string
       add :views, :integer, default: 0

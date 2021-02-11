@@ -22,13 +22,13 @@ import {
 import AdCarousel from "./AdCarousel";
 import Label from "../../Layouts/Label";
 import CustomButton from "../../Layouts/CustomButton";
-import CheckCircleOutlineRoundedIcon from "@material-ui/icons/CheckCircleOutlineRounded";
+// import CheckCircleOutlineRoundedIcon from "@material-ui/icons/CheckCircleOutlineRounded";
 import { CheckCircle as CheckCircleIcon } from "react-feather";
 const useStyles = makeStyles((theme) => ({
   root: { border: "2px" },
   boxDetails: { borderColor: "grey.500", padding: theme.spacing(3) },
   overview: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
     display: "flex",
     alignItems: "center",
     flexWrap: "wrap",
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "1%",
   },
   details: {
-    padding: theme.spacing(3),
+    padding: theme.spacing(1),
     display: "flex",
     alignItems: "center",
     flexWrap: "wrap",
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   titlePrice: {
-    padding: theme.spacing(2),
+    paddingLeft: theme.spacing(3),
   },
   wrapIcon: {
     verticalAlign: "middle",
@@ -69,28 +69,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const VehicleDetail = ({ detail, value }) => (
-  <Grid item lg={4} md={6} xs={12} key={detail}>
-    <Grid container direction="row" alignItems="center">
-      <Grid item>
-        <Label color="primary">
-          <Typography display="inline" variant="caption">
-            {detail}
-          </Typography>
-        </Label>
-      {/* </Grid>
+const VehicleDetail = ({ detail, value, len }) => {
+  var lgVal = 4;
+  if (len) {
+    lgVal = len;
+  }
+  return (
+    <Grid item lg={lgVal} md={6} xs={12} key={detail}>
+      <Grid container direction="row" alignItems="center">
+        <Grid item>
+          <Label color="primary">
+            <Typography display="inline" variant="caption">
+              {detail}
+            </Typography>
+          </Label>
+          {/* </Grid>
       <Grid item> */}
-        <Typography
-          variant="button"
-          display="inline"
-          style={{ marginLeft: "16px" }}
-        >
-          {value}
-        </Typography>
+          <Typography
+            variant="button"
+            display="inline"
+            style={{ marginLeft: "16px" }}
+          >
+            {value}
+          </Typography>
+        </Grid>
       </Grid>
     </Grid>
-  </Grid>
-);
+  );
+};
 
 const VehicleDetailsTitle = ({ title }) => (
   <Label color="success">
@@ -106,7 +112,7 @@ const AdDetails = ({ details }) => {
   const [showSellerDetails, setShowSellerDetails] = useState(false);
 
   return (
-    <Card className={classes.root} variant="outlined" >
+    <Card className={classes.root} variant="outlined">
       {details && (
         <CardContent>
           <Paper variant="outlined">
@@ -121,7 +127,7 @@ const AdDetails = ({ details }) => {
                   <Typography variant="h6">{details.name}</Typography>
                 </Grid>
                 <Grid item lg={4} md={6} xs={12}>
-                  <CustomButton size="large">
+                  <CustomButton size="medium">
                     <Typography variant="h6">
                       {"Rs. " +
                         numeral(details.asking_price).format(`0,0.00`) +
@@ -134,6 +140,7 @@ const AdDetails = ({ details }) => {
             <Divider />
             <Box className={classes.overview}>
               <AdCarousel imagesList={details.images} />
+              {/* <DemoCorousel /> */}
             </Box>
             <Divider />
             <Box className={classes.overview}>
@@ -163,6 +170,11 @@ const AdDetails = ({ details }) => {
                   value={new Date(details.ad_active_timestamp).toDateString()}
                 />
                 <VehicleDetail detail="Post Id" value={details.id} />
+                <VehicleDetail
+                  detail="Location"
+                  len={12}
+                  value={details.location.location_str}
+                />
               </Grid>
             </Box>
 
@@ -175,7 +187,7 @@ const AdDetails = ({ details }) => {
               <Grid container spacing={2} className={classes.ykf}>
                 <Grid item xs={12}>
                   <Typography variant="button">
-                    {details.seller_details.seller_notes}
+                    {details.extra_notes}
                   </Typography>
                 </Grid>
               </Grid>
@@ -187,15 +199,8 @@ const AdDetails = ({ details }) => {
             <Divider />
             <Box className={classes.details}>
               <Grid container spacing={2} className={classes.ykf}>
-                {details.features.map((feature) => (
-                  <Grid
-                    item
-                    xs={4}
-                    lg={4}
-                    md={6}
-                    xs={12}
-                    key={Object.keys(feature)[0]}
-                  >
+                {Object.keys(details.features).map((feature) => (
+                  <Grid item lg={4} md={6} xs={12} key={feature}>
                     <Grid container direction="row" alignItems="center">
                       <Grid item>
                         <CheckCircleIcon color="green" size={25} />
@@ -206,7 +211,7 @@ const AdDetails = ({ details }) => {
                           display="inline"
                           style={{ marginLeft: "5px" }}
                         >
-                          {Object.keys(feature)[0]}
+                          {details.features[feature].label}
                         </Typography>
                       </Grid>
                     </Grid>

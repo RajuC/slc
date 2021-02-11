@@ -21,7 +21,7 @@ import {
 } from "react-feather";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import RefreshIcon from "@material-ui/icons/Refresh";
-import CustomButton from "../Layouts/CustomButton";
+import CustomButton from "../../Layouts/CustomButton";
 
 const useStyles = makeStyles((theme) => ({
   root: { marginTop: theme.spacing(1) },

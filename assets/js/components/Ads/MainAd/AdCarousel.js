@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const AdCarousel = ({ imagesList }) => {
   const classes = useStyles();
   console.log("(AdCorousel)========================== imagesList", imagesList);
@@ -34,26 +33,36 @@ const AdCarousel = ({ imagesList }) => {
         infiniteLoop
         useKeyboardArrows
         showArrows={true}
-        dynamicHeight={false}
-        width="100%"
+        // width="100%"
       >
         {imagesList &&
           imagesList.map((imageObject) => (
-            <div key={imageObject.name} style={{ padding: "5%" }}>
+            <div key={imageObject.name}>
               <img
                 style={{
                   marginTop:
-                    imageObject.width >= 2 * imageObject.height ? "13%" : "2%",
-                  marginBottom:
-                    imageObject.width > imageObject.height
+                  imageObject.width >= 2.5 * imageObject.height
+                      ? "6%"
+                      : imageObject.width >= 2 * imageObject.height
+                      ? "5%"
+                      : imageObject.width > 1.5 * imageObject.height
+                      ? "3%"
+                      : imageObject.width > imageObject.height
                       ? "2%"
-                      : (imageObject.height >= (2 * imageObject.width)
-                      ? "20%"
-                      : "5%"),
+                      : "1%",
+
                   maxWidth:
-                    imageObject.width > imageObject.height ? "70%" : "40%",
-                  maxHeight:
-                    imageObject.width > imageObject.height ? "60%" : "60%",
+                    imageObject.width >= 2 * imageObject.height
+                      ? "90%"
+                      : imageObject.width > 1.5 * imageObject.height
+                      ? "80%"
+                      : imageObject.width > imageObject.height
+                      ? "60%"
+                      : imageObject.height >= 2 * imageObject.width
+                      ? "30%"
+                      : imageObject.height >= 1.5 * imageObject.width
+                      ? "36%"
+                      : "37%"
                 }}
                 src={imageObject.url}
               />

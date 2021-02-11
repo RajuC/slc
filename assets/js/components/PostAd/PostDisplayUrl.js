@@ -42,10 +42,62 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+const imagesList = [
+    {
+      height: 480,
+      imgRef: "images/2277-9670202e80-1.jpg",
+      name: "1.jpg",
+      url:
+        "https://firebasestorage.googleapis.com/v0/b/srilaxmi-cars.appspot.com/o/images%2F2277-9670202e80-1.jpg?alt=media&token=09359009-4c88-4b84-a1a1-d87cb02c36a1",
+      width: 640,
+    },
+    {
+      height: 480,
+      imgRef: "images/2277-9670202e80-2.jpg",
+      name: "2.jpg",
+      url:
+        "https://firebasestorage.googleapis.com/v0/b/srilaxmi-cars.appspot.com/o/images%2F2277-9670202e80-2.jpg?alt=media&token=8c784642-eae9-4a66-a48f-1ad9ef478b39",
+      width: 640,
+    },
+    {
+      height: 1024,
+      imgRef: "images/2277-9670202e80-3.jpg",
+      name: "3.jpg",
+      url:
+        "https://firebasestorage.googleapis.com/v0/b/srilaxmi-cars.appspot.com/o/images%2F2277-9670202e80-3.jpg?alt=media&token=4ee9fb35-ba60-48b2-a8e3-f774e2087c0e",
+      width: 768,
+    },
+    {
+      height: 1024,
+      imgRef: "images/2277-9670202e80-4.jpg",
+      name: "4.jpg",
+      url:
+        "https://firebasestorage.googleapis.com/v0/b/srilaxmi-cars.appspot.com/o/images%2F2277-9670202e80-4.jpg?alt=media&token=e80727f9-2d5e-4dfc-813d-15b0ab6b212d",
+      width: 768,
+    },
+    {
+      height: 470,
+      imgRef: "images/2277-9670202e80-5.jpg",
+      name: "5.jpg",
+      url:
+        "https://firebasestorage.googleapis.com/v0/b/srilaxmi-cars.appspot.com/o/images%2F2277-9670202e80-5.jpg?alt=media&token=bcd91f48-fdf1-4eea-8c4a-4a1cd7567f23",
+      width: 1024,
+    },
+    {
+      height: 470,
+      imgRef: "images/2277-9670202e80-6.jpg",
+      name: "6.jpg",
+      url:
+        "https://firebasestorage.googleapis.com/v0/b/srilaxmi-cars.appspot.com/o/images%2F2277-9670202e80-6.jpg?alt=media&token=b7c39c89-84b8-4ba9-b842-e1e9e073132c",
+      width: 1024,
+    },
+  ];
+  
+
 const mandatoryText = 'Asking Price field cannot be empty';
 const valObj = { value: '', error: false, errorText: 'ex: asking price helper text' };
 
-const PostAskingPrice = () => {
+const PostDisplayUrl = () => {
     // const { dispatch, askingPrice } = props;
     const classes = useStyles();
     const [askingPrice, setAskingPrice] = useState(valObj);
@@ -93,7 +145,7 @@ const PostAskingPrice = () => {
 
 
 
-    const title = 'Enter Asking Price';
+    const title = 'Select Display Image for your Ad';
     return (
         <Container className={classes.cardGrid} maxWidth="lg">
             <PostHeader title={title} />
@@ -183,4 +235,6 @@ const PostAskingPrice = () => {
 
 
 
-export default PostAskingPrice;
+export default PostDisplayUrl;
+
+

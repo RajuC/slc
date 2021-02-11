@@ -2,37 +2,47 @@ import { postAdConstants } from "../constants/postAdConstants";
 
 import _ from "lodash";
 const initialState = {
-  details: {
-    post_ad_id: "",
-    type: "",
-    brand: "",
-    model: "",
-    variant: "",
-    year: "",
-    condition: "",
-    fuel_type: "",
-    km_driven: "",
-    body_type: "",
-    transmission: "",
-    no_of_owners: "",
-    features: "",
-    seller_details: "",
-    images: "",
-    location: "",
-    asking_price: "",
-    display_image_url: "",
-    // payment_details: "",
-    // selected_pricing_plan_id: "123",
-    ad_status: "under_review", //
-  },
+  details: {},
   posted: false,
 };
 
 export default function postAd(state = initialState, action) {
   //   console.log("(Action)========================== ", action);
   let postAdDetails = { ...state.details };
-  let sellerDetails = { ...postAdDetails.seller_details };
+  let postAdFeatures = { ...postAdDetails.features };
   switch (action.type) {
+    case postAdConstants.ADD_EDIT_LISTING:
+      return {
+        posted: false,
+        details: {
+          ...postAdDetails,
+          [action.key]: action.listingDetails,
+        },
+      };
+
+    case postAdConstants.ADD_VEHICLE_FEATURE:
+      let updatedVehFeatures = "";
+      if (postAdFeatures) {
+        updatedVehFeatures = { ...postAdFeatures, ...action.vehicleFeature };
+      }
+      return {
+        posted: false,
+        details: {
+          ...postAdDetails,
+          features: updatedVehFeatures,
+        },
+      };
+
+    case postAdConstants.REMOVE_VEHICLE_FEATURE:
+      delete postAdFeatures[action.vehicleFeatureKey];
+      return {
+        posted: false,
+        details: {
+          ...postAdDetails,
+          features: postAdFeatures,
+        },
+      };
+
     case postAdConstants.ADD_POST_ID:
       return {
         posted: false,
@@ -41,6 +51,7 @@ export default function postAd(state = initialState, action) {
           post_ad_id: action.postId,
         },
       };
+
     case postAdConstants.ADD_VEHICLE_TYPE:
       return {
         posted: false,
@@ -195,14 +206,7 @@ export default function postAd(state = initialState, action) {
           asking_price: action.askingPrice,
         },
       };
-    case postAdConstants.ADD_VEHICLE_FEATURES:
-      return {
-        posted: false,
-        details: {
-          ...postAdDetails,
-          features: action.vehicleFeatures,
-        },
-      };
+
     case postAdConstants.ADD_VEHICLE_IMAGES:
       return {
         posted: false,

@@ -1,5 +1,5 @@
 div.carousel.carousel-slider {
-  height: 550px;
+  max-height: 500px;
 }
 
 /* div.slider-wrapper.axis-horizontal {
@@ -9,3 +9,17 @@ div.carousel.carousel-slider {
 li.thumb {
   text-align: center;
 }
+
+/* button.control-arrow.control-prev::before {
+  border-right: 20px solid #fff
+} */
+
+/* button.control-arrow.control-next::before {
+  border-right: 20px solid #fff
+} */
+
+
+div.thumbs-wrapper.axis-vertical {
+  margin: 3px;
+}
+

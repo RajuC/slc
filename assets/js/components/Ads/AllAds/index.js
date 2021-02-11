@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Box, Container, makeStyles } from "@material-ui/core";
 import Header from "./Header";
 import Results from "./Results";
-import { apiService } from "../../services/apiService";
-import useIsMountedRef from "../../hooks/useIsMountedRef";
+import { apiService } from "../../../services/apiService";
+import useIsMountedRef from "../../../hooks/useIsMountedRef";
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.dark,
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Ads = () => {
+const AllAds = () => {
   console.log("(All Ads)========================== ads ");
   const classes = useStyles();
   const isMountedRef = useIsMountedRef();
@@ -36,8 +36,11 @@ const Ads = () => {
   }, [getAllAds]);
 
   return (
-    <Container maxWidth={false}>
+    <Container maxWidth="lg">
+      <Box mt={7}>
       <Header />
+      </Box>
+      
       {ads && (
         <Box mt={3}>
           <Results ads={ads} />
@@ -47,4 +50,4 @@ const Ads = () => {
   );
 };
 
-export default Ads;
+export default AllAds;

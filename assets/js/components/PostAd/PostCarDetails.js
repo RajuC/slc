@@ -20,7 +20,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import PostHeader from "./PostHeader";
 import { postAdActions } from "../../actions";
-import { postAdService, userService } from "../../services/postAdService";
+// import { postAdService, userService } from "../../services/postAdService";
 
 import { apiService } from "../../services/apiService";
 // import useIsMountedRef from "../../hooks/useIsMountedRef";
@@ -162,7 +162,7 @@ const PostCarDetails = ({ className, ...rest }) => {
   useEffect(() => {
     let postId =
       "2277-" +
-      (Math.floor(Math.random() * 9000000) + 1000000) +
+      (Math.floor(Math.random() * 90000) + 10000) +
       Math.random().toString(36).substr(3, 3);
     dispatch(postAdActions.addPostId(postId));
     dispatch(postAdActions.addVehicleType(carDetails.type));
