@@ -2,6 +2,7 @@ import { adUtilsService } from "./adUtilsService";
 
 export const validationService = {
   validateAddListing,
+  validateUpdateListing,
   validatePostAd,
   validateLoginUserDetails,
   validateRegisterUserDetails,
@@ -18,6 +19,87 @@ function updateValObjWithError(errorText) {
     error: true,
     errorText: errorText,
   };
+}
+
+function validateUpdateListing(postAd) {
+  let isValid = true;
+  // var initialListing = adUtilsService.getInitialListing();
+  var listingObj = { ...postAd };
+  var finalListingObj = { ...listingObj };
+
+  console.log(
+    "(validateUpdateListing)========================== postAd",
+    postAd
+  );
+  // console.log(
+  //   "(validateAddListing)========================== listingObj",
+  //   listingObj
+  // );
+
+  Object.keys(listingObj).map(function (key, index) {
+    if (
+      !listingObj[key].value ||
+      listingObj[key].value == {} ||
+      listingObj[key].value == []
+    ) {
+      isValid = false;
+      finalListingObj = {
+        ...finalListingObj,
+        [key]: adUtilsService.updateValObjWithError(
+          key,
+          `${listingObj[key].label} ${mandatoryText}`
+        ),
+      };
+      if (
+        listingObj.type.value == "bike" &&
+        (listingObj.variant.value == "" ||
+          listingObj.body_type.value == "" ||
+          listingObj.transmission.value == "")
+      ) {
+        finalListingObj = {
+          ...finalListingObj,
+          [key]: adUtilsService.updateValObjWithVal(key, "NA"),
+        };
+        isValid = true;
+      }
+      if (key == "display_image_url") {
+        finalListingObj = {
+          ...finalListingObj,
+          [key]: adUtilsService.updateValObjWithVal(key, "NA"),
+        };
+        isValid = true;
+      }
+      if (key == "images") {
+        finalListingObj = {
+          ...finalListingObj,
+          [key]: adUtilsService.updateValObjWithError(
+            key,
+            "Please upload your vehicle Images!"
+          ),
+        };
+      }
+      if (key == "features") {
+        finalListingObj = {
+          ...finalListingObj,
+          [key]: adUtilsService.updateValObjWithError(
+            key,
+            "Please select your Car Features!"
+          ),
+        };
+      }
+    }
+  });
+  console.log(
+    "(validateUpdateListing)========================== finalListingObj",
+    isValid,
+    finalListingObj
+  );
+
+  if (isValid) {
+    return { isValid, finalListingObj };
+  } else {
+    return { isValid, finalListingObj };
+  }
 }
 
 function validateAddListing(postAd) {
@@ -48,8 +130,8 @@ function validateAddListing(postAd) {
       if (
         listingObj.type.value == "bike" &&
         (listingObj.variant.value == "" ||
-        listingObj.body_type.value == "" ||
-        listingObj.transmission.value == "")
+          listingObj.body_type.value == "" ||
+          listingObj.transmission.value == "")
       ) {
         finalListingObj = {
           ...finalListingObj,

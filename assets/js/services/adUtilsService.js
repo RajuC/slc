@@ -24,28 +24,43 @@ export const adUtilsService = {
 
 const valObj = { value: "", error: false, errorText: "", label: "" };
 
-
-
 function updateValObjWithVal(field, data) {
   let initialObj = getInitialListing();
   let initialValObj = initialObj[field];
-  return {
-    ...initialValObj,
-    value: data
-  };
+  // console.log(
+  //   "(adUtilsService)==========================initialValObj ",
+  //   initialValObj
+  // );
+  if (initialValObj) {
+    return {
+      ...initialValObj,
+      value: data,
+    };
+  }
+  if (!initialValObj) {
+    return updateValObjWithValnLabel(data, field);
+  }
 }
 
 function updateValObjWithError(field, errorText) {
   let initialObj = getInitialListing();
   let initialValObj = initialObj[field];
-  return {
-    ...initialValObj,
-    value: "",
-    error: true,
-    errorText: errorText,
-  };
-}
 
+  if (field == "location") {
+    return {
+      ...initialValObj,
+      error: true,
+      errorText: errorText,
+    };
+  } else {
+    return {
+      ...initialValObj,
+      value: "",
+      error: true,
+      errorText: errorText,
+    };
+  }
+}
 
 function updateValObjWithLabel(label) {
   return {
@@ -61,7 +76,6 @@ function updateValObjWithValnLabel(val, label) {
     value: val,
   };
 }
-
 
 // function arrayToObject(array) {
 //   const arrObj = array.reduce((o, item) => {
@@ -144,7 +158,7 @@ function getInitialListing() {
       label: "Images",
     },
     location: {
-      value: {location: "", place_id: "", lat: "", long: ""},
+      value: { location_str: "", place_id: "", lat: "", long: "" },
       error: false,
       errorText: "only alphabets - ex: malkajgiri, secunderabad",
       label: "Location",
@@ -247,7 +261,6 @@ function getBikeFeatures() {
   };
 }
 
-
 function getAttributes() {
   return {
     brands: [],
@@ -262,8 +275,6 @@ function getAttributes() {
     adStatus: getAdStatus(),
   };
 }
-
-
 
 // function getCarAttributes() {
 //   return {

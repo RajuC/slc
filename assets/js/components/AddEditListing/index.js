@@ -181,8 +181,10 @@ const AddEditListing = () => {
   const { id } = useParams();
   const classes = useStyles();
   const [action, setAction] = useState("post");
+  const [editLocation, setEditLocation] = useState(false);
   const dispatch = useDispatch();
   const [listing, setListing] = useState(adUtilsService.getInitialListing());
+  const [origLocListing, setOrigLocListing] = useState("");
   const [carFeatures, setCarFeatures] = useState(
     adUtilsService.getCarFeatures()
   );
@@ -203,24 +205,21 @@ const AddEditListing = () => {
   //   "(AddEditListing)========================== Listing Details ",
   //   id,
   //   action,
-  //   listing
+  //   listing,
+  //   attributes
   // );
 
   const setFeatures = (type, features) => {
     if (type == "car") {
-      features.map((feature) =>
-        setCarFeatures({
-          ...carFeatures,
-          ...feature,
-        })
-      );
+      setCarFeatures({
+        ...carFeatures,
+        ...features,
+      });
     } else {
-      features.map((feature) =>
-        setBikeFeatures({
-          ...bikeFeatures,
-          ...feature,
-        })
-      );
+      setBikeFeatures({
+        ...bikeFeatures,
+        ...features,
+      });
     }
   };
 
@@ -300,30 +299,77 @@ const AddEditListing = () => {
     }
   };
 
+  const updateEditListing = (listingObj) => {
+    return Object.keys(listingObj).reduce(
+      (attrs, key) => ({
+        ...attrs,
+        [key]: adUtilsService.updateValObjWithVal(key, listingObj[key]),
+      }),
+      {}
+    );
+  };
+
+  const getSetAttributes = async (type, brand, model) => {
+    try {
+      var brandResponse = "";
+      var modelResponse = "";
+      var variantResponse = "";
+      if (type == "car") {
+        brandResponse = await apiService.listCarBrands(type);
+        modelResponse = await apiService.listCarModels(type, brand);
+        variantResponse = await apiService.listCarVariants(type, brand, model);
+      }
+      if (type == "bike") {
+        brandResponse = await apiService.listBikeBrands(type);
+        modelResponse = await apiService.listBikeModels(type, brand);
+        variantResponse = await apiService.listBikeVariants(type, brand, model);
+      }
+
+      setAttributes({
+        ...attributes,
+        brands: brandResponse.data,
+        models: modelResponse.data,
+        variants: variantResponse.data,
+      });
+    } catch (err) {
+      console.error("getBrands", err);
+    }
+  };
+
   const getSetListing = async (listing_id) => {
     try {
       const response = await apiService.getAdById(listing_id);
-
-      // setlisting(response.data);
-      let listingToAdd = mapValues(response.data, (value) => {
-        return {
-          ...valObj,
-          value: value,
-        };
-      });
+      let listingToAdd = updateEditListing(response.data);
       setAction("edit");
+      // setEditLocation(true);
       setListing(listingToAdd);
-      getSetBrands(response.data.type);
-      getSetModels(response.data.type, response.data.brand);
-      getSetVariants(
+      setFeatures(response.data.type, response.data.features);
+      let locDetailsObj = adUtilsService.updateValObjWithVal(
+        "location",
+        response.data.location
+      );
+      setOrigLocListing(locDetailsObj);
+      getSetAttributes(
         response.data.type,
         response.data.brand,
         response.data.model
       );
-      setFeatures(response.data.type, response.data.features);
     } catch (err) {
       console.error("getSetListing", err);
     }
+  };
+
+  const cancelEditLocation = () => {
+    setListing({
+      ...listing,
+      location: origLocListing,
+    });
+    setEditLocation(false);
+  };
+
+  const saveEditLocation = () => {
+    setOrigLocListing(listing.location);
+    setEditLocation(false);
   };
 
   const handleImageUpload = (image) => {
@@ -481,6 +527,10 @@ const AddEditListing = () => {
   };
 
   const handleLocationListingChange = (listingDetailsObj) => {
+    console.log(
+      "(listingDetailsObj)========================== ",
+      listingDetailsObj
+    );
     setListing({
       ...listing,
       location: listingDetailsObj,
@@ -508,22 +558,12 @@ const AddEditListing = () => {
   };
 
   const handleListingChange = (key, data) => {
-    // console.log("(handleListingChange)========================== ", key, data );
-    if (key == "post_ad_id") {
-      getSetBrands("car");
-    }
-    if (key == "type") {
-      getSetBrands(data);
-    }
-    if (key == "brand") {
-      getSetModels(listing.type.value, data);
-    }
-    if (key == "model") {
-      getSetVariants(listing.type.value, listing.brand.value, data);
-    }
-    if (key == "location") {
-      getSetBrands(data);
-    }
+    console.log(
+      "(handleListingChange)========================== listing",
+      listing,
+      key,
+      data
+    );
 
     let listingDetailsObj = "";
 
@@ -536,11 +576,48 @@ const AddEditListing = () => {
       );
     }
 
-    setListing({
-      ...listing,
-      [key]: listingDetailsObj,
-    });
-
+    if (key == "post_ad_id") {
+      setListing({
+        ...listing,
+        [key]: listingDetailsObj,
+        type: adUtilsService.updateValObjWithVal("type", ""),
+        brand: adUtilsService.updateValObjWithVal("brand", ""),
+        model: adUtilsService.updateValObjWithVal("model", ""),
+        variant: adUtilsService.updateValObjWithVal("variant", ""),
+      });
+    } else if (key == "type") {
+      getSetBrands(data);
+      setListing({
+        ...listing,
+        [key]: listingDetailsObj,
+        brand: adUtilsService.updateValObjWithVal("brand", ""),
+        model: adUtilsService.updateValObjWithVal("model", ""),
+        variant: adUtilsService.updateValObjWithVal("variant", ""),
+      });
+      setAttributes({ ...attributes, brands: [], models: [], variants: [] });
+    } else if (key == "brand") {
+      getSetModels(listing.type.value, data);
+      setListing({
+        ...listing,
+        [key]: listingDetailsObj,
+        model: adUtilsService.updateValObjWithVal("model", ""),
+        variant: adUtilsService.updateValObjWithVal("variant", ""),
+      });
+      setAttributes({ ...attributes, models: [], variants: [] });
+    } else if (key == "model") {
+      getSetVariants(listing.type.value, listing.brand.value, data);
+      setListing({
+        ...listing,
+        [key]: listingDetailsObj,
+        variant: adUtilsService.updateValObjWithVal("variant", ""),
+      });
+      setAttributes({ ...attributes, variants: [] });
+    } else {
+      setListing({
+        ...listing,
+        [key]: listingDetailsObj,
+      });
+    }
     dispatch(postAdActions.addEditListing(key, listingDetailsObj));
   };
 
@@ -569,7 +646,15 @@ const AddEditListing = () => {
   }, []);
 
   const postAdSubmit = () => {
-    let validationResult = validationService.validateAddListing(listingDetails);
+    let validationResult = "";
+    if (action == "edit") {
+      validationResult = validationService.validateUpdateListing(
+        listingDetails
+      );
+    }
+    if (action == "post") {
+      validationResult = validationService.validateAddListing(listingDetails);
+    }
     if (validationResult.isValid) {
       // console.log("Success Validation Ready to post", validationResult);
 
@@ -581,7 +666,12 @@ const AddEditListing = () => {
       // );
 
       console.log("Success Validation Ready to postpostAdObj ", postAdObj);
-      dispatch(postAdActions.submitAdDetails({ ad: postAdObj }, "/"));
+      if (action == "post") {
+        dispatch(postAdActions.submitAdDetails({ ad: postAdObj }, "/"));
+      }
+      if (action == "edit") {
+        dispatch(postAdActions.updateAdDetails({ id: id, ad: postAdObj }, "/"));
+      }
     } else {
       console.log(
         "failed Validation!!!!!!!!!!!!! validationResult: ",
@@ -1149,22 +1239,26 @@ const AddEditListing = () => {
                     <>
                       <Grid item md={4} sm={6} xs={12}>
                         <Typography>
-                          {listing.location.value.location_str}
+                          {origLocListing
+                            ? origLocListing.value.location_str
+                            : listing.location.value.location_str}
                         </Typography>
                       </Grid>
-                      <Grid item item md={1} sm={1} xs={2}>
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          size="small"
-                          onClick={(e) => setEditLocation(true)}
-                        >
-                          Edit
-                        </Button>
-                      </Grid>
+                      {!editLocation && (
+                        <Grid item item md={1} sm={1} xs={2}>
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            size="small"
+                            onClick={(e) => setEditLocation(true)}
+                          >
+                            Edit
+                          </Button>
+                        </Grid>
+                      )}
                     </>
                   )}
-                  {action == "post" && (
+                  {editLocation && (
                     <>
                       <Grid item md={4} sm={6} xs={12}>
                         <GoogleMaps
@@ -1174,17 +1268,30 @@ const AddEditListing = () => {
                         />
                       </Grid>
                       {action == "edit" && (
-                        <Grid item item md={1} sm={1} xs={2}>
+                        <Grid item md={1} sm={1} xs={2}>
                           <Button
                             color="primary"
                             variant="contained"
                             size="small"
-                            onClick={(e) => setEditLocation(false)}
+                            onClick={(e) => saveEditLocation()}
+                          >
+                            SAVE
+                          </Button>
+                        </Grid>
+                      )}
+                      {action == "edit" && (
+                        <Grid item md={1} sm={1} xs={2}>
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            size="small"
+                            onClick={(e) => cancelEditLocation()}
                           >
                             Cancel
                           </Button>
                         </Grid>
                       )}
+
                       <Grid item md={6} sm={6} xs={12}>
                         <Typography>
                           Tips 1. search your locality without spaces 2. don't
@@ -1272,7 +1379,7 @@ const AddEditListing = () => {
                     className={classes.submit}
                     onClick={postAdSubmit}
                   >
-                    Submit
+                    {action == "post" ? "Submit" : "Update"}
                   </CustomButton>
                   <CustomButton
                     variant="contained"

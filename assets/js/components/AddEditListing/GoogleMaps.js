@@ -44,7 +44,7 @@ const mandatoryText =
 
 // export default function GoogleMaps() {
 const GoogleMaps = ({ field, locListing, onLocationFieldChange }) => {
-  // console.log("(GoogleMaps)========================== GoogleMaps", locListing );
+  // console.log("(GoogleMaps)========================== GoogleMaps", field, locListing );
   const classes = useStyles();
   // const [carLocation, setCarLocation] = React.useState(valObj);
   const [value, setValue] = React.useState(null);
@@ -98,13 +98,13 @@ const GoogleMaps = ({ field, locListing, onLocationFieldChange }) => {
     //   return undefined;
     // }
 
-    if (locListing.value.location === "") {
+    if (locListing.value.location_str === "") {
       setOptions(value ? [value] : []);
       return undefined;
     }
 
-    fetch({ input: locListing.value.location }, (results) => {
-      // console.log("fetch ------------- carLocation.value ", locListing.value.location, "and results : ", results);
+    fetch({ input: locListing.value.location_str }, (results) => {
+      // console.log("fetch ------------- carLocation.value ", locListing.value.location_str, "and results : ", results);
       if (active) {
         let newOptions = [];
 
@@ -124,7 +124,7 @@ const GoogleMaps = ({ field, locListing, onLocationFieldChange }) => {
     return () => {
       active = false;
     };
-  }, [value, locListing.value.location, fetch]);
+  }, [value, locListing.value.location_str, fetch]);
 
 
 
@@ -162,7 +162,7 @@ const GoogleMaps = ({ field, locListing, onLocationFieldChange }) => {
           // );
           // onLocationFieldChange(locDetailsObj);
 
-      locDetailsObj = adUtilsService.updateValObjWithVal(field, {location: loc, place_id: ""});
+      locDetailsObj = adUtilsService.updateValObjWithVal(field, {location_str: loc, place_id: ""});
       // setCarLocation(updateValObjWithVal(loc));
     }
 
@@ -182,7 +182,7 @@ const GoogleMaps = ({ field, locListing, onLocationFieldChange }) => {
       freeSolo
       includeInputInList
       filterSelectedOptions
-      value={locListing.value.location}
+      // value={locListing.value.location_str}
       onChange={(event, newValue) => {
         // console.log("location selected ........", newValue);
         setOptions(newValue ? [newValue, ...options] : options);
@@ -191,7 +191,7 @@ const GoogleMaps = ({ field, locListing, onLocationFieldChange }) => {
           // setCarLocation(updateValObjWithVal(newValue.description));
           let locDetailsObj = adUtilsService.updateValObjWithVal(
             field,
-            {location: newValue.description, place_id:  newValue.place_id}
+            {location_str: newValue.description, place_id:  newValue.place_id}
           );
           onLocationFieldChange(locDetailsObj);
           // dispatch(postAdActions.addVehicleLocation(

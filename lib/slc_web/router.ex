@@ -43,6 +43,7 @@ defmodule SlcWeb.Router do
     pipe_through([:api, :jwt_authenticated])
 
     post("/post_ad", AdController, :create)
+    post("/update_ad", AdController, :update)
     ## display all listings (active and inactive)
     get("/listings", AdController, :all_ads)
     ## display all listings (active and inactive)

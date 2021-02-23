@@ -11,8 +11,8 @@ import { useTheme } from "@material-ui/core/styles";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { userActions } from "../../actions";
 import MiniNavMenu from "./MiniNavMenu";
-import MenuIcon from '@material-ui/icons/Menu';
-import CustomButton from "./CustomButton"
+import MenuIcon from "@material-ui/icons/Menu";
+import CustomButton from "./CustomButton";
 const useStyles = makeStyles((theme) => ({
   buttons: {
     "& > *": {
@@ -44,7 +44,7 @@ const mobileSizeMenuItems = [
   },
   {
     title: "Post Ad",
-    path: "/postad",
+    path: "/post/listing",
     id: "postad",
   },
   {
@@ -110,7 +110,7 @@ const NavItems = (props) => {
     if (currentUser.loggedIn && currentUser.user) {
       dispatch(userActions.userLogout("/login"));
     }
-    setAnchorEl(null);
+    // setAnchorEl(null);
   };
 
   return (
@@ -161,7 +161,7 @@ const NavItems = (props) => {
               <Button size="small" variant="contained" href="/listings/bikes">
                 Bikes
               </Button>
-              <CustomButton size="small" variant="contained" href="/postAd">
+              <CustomButton size="small" variant="contained" href="/post/listing">
                 Post Ad
               </CustomButton>
               <Button size="small" variant="contained" href="/listings">

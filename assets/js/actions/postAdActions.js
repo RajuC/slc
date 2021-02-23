@@ -1,5 +1,5 @@
 import { postAdConstants } from "../constants/postAdConstants";
-import { postAdService } from "../services/postAdService";
+// import { postAdService } from "../services/postAdService";
 import { alertActions } from "./alertActions";
 import { history } from "../helpers";
 import { apiService } from "../services/apiService";
@@ -31,7 +31,50 @@ export const postAdActions = {
   addVehicleTransmission,
   addVehicleNoOfOwners,
   submitAdDetails,
+  updateAdDetails,
 };
+
+function updateAdDetails(adDetails, path) {
+  console.log(
+    "(updateAdDetails)========================== updateAdDetails",
+    adDetails,
+    path
+  );
+  return (dispatch) => {
+    dispatch(request(adDetails));
+
+    const updateAd = async () => {
+      try {
+        const response = await apiService.updateAd(adDetails);
+        dispatch(success(response.data.id));
+        console.log("Post Ad success", response.data.id);
+        history.push(path);
+        dispatch(
+          alertActions.success(
+            "Your Ad updated successfully reference id" + response.data.id
+          )
+        );
+      } catch (err) {
+        console.error(err);
+        dispatch(failure(err));
+        dispatch(alertActions.error(err));
+      }
+    };
+
+    updateAd();
+
+  };
+
+  function request(adDetails) {
+    return { type: postAdConstants.UPDATE_AD_REQUEST, adDetails };
+  }
+  function success(adDetails) {
+    return { type: postAdConstants.UPDATE_AD_SUCCESS, adDetails };
+  }
+  function failure(error) {
+    return { type: postAdConstants.UPDATE_AD_FAILURE, error };
+  }
+}
 
 function submitAdDetails(ad, path) {
   console.log(
@@ -103,7 +146,6 @@ function submitAdDetails(ad, path) {
   }
 }
 
-
 function addEditListing(key, listingDetails) {
   return { type: postAdConstants.ADD_EDIT_LISTING, key, listingDetails };
 }
@@ -115,10 +157,6 @@ function addVehicleFeature(vehicleFeature) {
 function removeVehicleFeature(vehicleFeatureKey) {
   return { type: postAdConstants.REMOVE_VEHICLE_FEATURE, vehicleFeatureKey };
 }
-
-
-
-
 
 function addAskingPrice(askingPrice) {
   return { type: postAdConstants.ADD_VEHICLE_ASKING_PRICE, askingPrice };

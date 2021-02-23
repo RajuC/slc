@@ -25,6 +25,7 @@ const CarAds = () => {
     try {
       const response = await apiService.listAllAds();
       setCarAds(response.data);
+      console.log("(Car Ads)========================== response.data ", response.data);
     } catch (err) {
       console.error(err);
     }

@@ -1,6 +1,21 @@
 defmodule Slc.Utils do
-  def frame_location(%{"location" => location, "place_id" => place_id, "lat" => lat, "long" => long} = loc_vall) do
-    loc_vall |> IO.inspect(label: "#{__ENV__.module}||#{inspect(__ENV__.function)}||L:#{__ENV__.line}||--------> location: " )
+  # %{
+  #   "lat" => 17.4503375,
+  #   "location_str" => "Malkajgiri, Secunderabad, Telangana, India",
+  #   "long" => 78.53224809999999,
+  #   "place_id" => "ChIJdRIOrsubyzsR0x-UrJmo4T0"
+  # }
+
+  def frame_location(
+        %{"location_str" => location, "place_id" => place_id, "lat" => lat, "long" => long} =
+          loc_vall
+      ) do
+    loc_vall
+    |> IO.inspect(
+      label:
+        "#{__ENV__.module}||#{inspect(__ENV__.function)}||L:#{__ENV__.line}||--------> location: "
+    )
+
     location_map =
       case String.split(location, ", ") do
         [subRegion, region, city, state, "India"] ->
@@ -38,6 +53,6 @@ defmodule Slc.Utils do
           }
       end
 
-  {:ok, location_map}
+    {:ok, location_map}
   end
 end

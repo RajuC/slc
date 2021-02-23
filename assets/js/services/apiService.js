@@ -10,6 +10,7 @@ export const apiService = {
   listCarVariants,
   listUsers,
   postAd,
+  updateAd,
   listAllAds,
   getAdById,
   listActiveAds,
@@ -53,6 +54,12 @@ function listUsers() {
 
 function postAd(ad) {
   return axios.post("/post_ad", ad, {
+    headers: { ...authHeader(), "Content-Type": "application/json" },
+  });
+}
+
+function updateAd(adDetails) {
+  return axios.post("/update_ad", adDetails, {
     headers: { ...authHeader(), "Content-Type": "application/json" },
   });
 }

@@ -118,7 +118,7 @@ const App = () => {
                     </Route> */}
           <Redirect exact from="/listings/reload/bikes" to="/listings/bikes" />
           <Redirect exact from="/listings/reload/cars" to="/listings/cars" />
-          <Redirect exact from="/listings/reload" to="/listings" />
+          {/* <Redirect exact from="/listings/reload" to="/listings" /> */}
           <Redirect from="*" to="/404" />
         </Switch>
       </Router>

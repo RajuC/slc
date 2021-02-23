@@ -30,6 +30,10 @@ export const postAdConstants = {
     POST_AD_SUCCESS:                'POST_AD_SUCCESS',
     POST_AD_FAILURE:                'POST_AD_FAILURE',
 
+    UPDATE_AD_REQUEST:              'UPDATE_AD_REQUEST',
+    UPDATE_AD_SUCCESS:              'UPDATE_AD_SUCCESS',
+    UPDATE_AD_FAILURE:              'UPDATE_AD_FAILURE',
+
     GET_AD_REQUEST:                 'GET_AD_REQUEST',
     GET_AD_SUCCESS:                 'GET_AD_SUCCESS',
     GET_AD_FAILURE:                 'GET_AD_FAILURE',

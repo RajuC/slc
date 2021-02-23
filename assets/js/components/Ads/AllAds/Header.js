@@ -83,7 +83,7 @@ const Header = ({ className, ...rest }) => {
           size="small"
           className={classes.action}
           component={RouterLink}
-          to="/listings/reload"
+          to="/listings"
           startIcon={
             <SvgIcon fontSize="small">
               <RefreshIcon />
