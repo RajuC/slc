@@ -23,7 +23,7 @@ const BikeAds = () => {
 
   const getBikeAds = async () => {
     try {
-      const response = await apiService.listAllAds();
+      const response = await apiService.listActiveAds();
       setBikeAds(response.data);
     } catch (err) {
       console.error(err);

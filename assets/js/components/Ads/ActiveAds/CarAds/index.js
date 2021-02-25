@@ -23,7 +23,7 @@ const CarAds = () => {
 
   const getCarAds = async () => {
     try {
-      const response = await apiService.listAllAds();
+      const response = await apiService.listActiveAds();
       setCarAds(response.data);
       console.log("(Car Ads)========================== response.data ", response.data);
     } catch (err) {
