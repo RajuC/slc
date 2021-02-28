@@ -1258,6 +1258,23 @@ const AddEditListing = () => {
                       )}
                     </>
                   )}
+                  {action == "post" && (
+                    <>
+                      <Grid item md={4} sm={6} xs={12}>
+                        <GoogleMaps
+                          field="location"
+                          locListing={listing.location}
+                          onLocationFieldChange={handleLocationListingChange}
+                        />
+                      </Grid>
+                      <Grid item md={6} sm={6} xs={12}>
+                        <Typography>
+                          Tips 1. search your locality without spaces 2. don't
+                          search cities directly, search sub-region or region
+                        </Typography>
+                      </Grid>
+                    </>
+                  )}
                   {editLocation && (
                     <>
                       <Grid item md={4} sm={6} xs={12}>
@@ -1291,13 +1308,6 @@ const AddEditListing = () => {
                           </Button>
                         </Grid>
                       )}
-
-                      <Grid item md={6} sm={6} xs={12}>
-                        <Typography>
-                          Tips 1. search your locality without spaces 2. don't
-                          search cities directly, search sub-region or region
-                        </Typography>
-                      </Grid>
                     </>
                   )}
                 </Grid>
