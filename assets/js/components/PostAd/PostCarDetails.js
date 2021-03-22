@@ -95,7 +95,7 @@ const PostCarDetails = ({ className, ...rest }) => {
   };
 
   const getBodyTypes = () => {
-    let bodyTypeArr = ["compact", "sedan", "hatch pack"];
+    let bodyTypeArr = ["hatchback", "sedan", "suv", "crossover","mini van", "mpv", "coupe", "convertible", "microcar", "truck"];
     return arrayToObject(bodyTypeArr);
   };
 

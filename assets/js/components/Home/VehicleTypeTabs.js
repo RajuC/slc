@@ -91,9 +91,9 @@ const VehicleTypeTabs = () => {
           variant="fullWidth"
           aria-label="featured tabs"
         >
-          <Tab label="Available Cars" icon={<CarsIcon />} {...a11yProps(0)} />
-          <Tab label="Available Bikes" icon={<BikesIcon />} {...a11yProps(1)} />
-          {/* <Tab label="Favorites" icon={<FavoriteIcon />} {...a11yProps(2)} /> */}
+          <Tab label="Cars" icon={<CarsIcon />} {...a11yProps(0)} />
+          <Tab label="Saved" icon={<FavoriteIcon />} {...a11yProps(1)} />
+          {/* <Tab label="Favorites" icon={<BikesIcon />} {...a11yProps(2)} /> */}
         </Tabs>
       </AppBar>
       <SwipeableViews

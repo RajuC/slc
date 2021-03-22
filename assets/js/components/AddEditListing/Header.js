@@ -1,6 +1,6 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import clsx from "clsx";
 import {
   Box,
@@ -93,8 +93,8 @@ const Header = ({ className, title, cancelPath, ...rest }) => {
   );
 };
 
-Header.propTypes = {
-  className: PropTypes.string,
-};
+// Header.propTypes = {
+//   className: PropTypes.string,
+// };
 
 export default Header;

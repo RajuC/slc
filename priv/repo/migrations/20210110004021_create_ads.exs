@@ -5,6 +5,7 @@ defmodule Slc.Repo.Migrations.CreateAds do
     create table(:slc_ads, primary_key: false) do
       add :id, :serial, primary_key: true
       add :post_ad_id, :string
+      add :post_by, :string
       add :type, :string
       add :brand, :string
       add :body_type, :string

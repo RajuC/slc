@@ -2,6 +2,7 @@ export const postAdConstants = {
 
     ADD_POST_ID:                    'ADD_POST_ID',
     ADD_EDIT_LISTING:               'ADD_EDIT_LISTING',
+    ADD_INITIAL_LISTING:            'ADD_INITIAL_LISTING',
     ADD_VEHICLE_TYPE:               'ADD_VEHICLE_TYPE',
     // ADD_VEHICLE_DETAILS:            'ADD_VEHICLE_DETAILS',
     ADD_VEHICLE_FEATURE:           'ADD_VEHICLE_FEATURE',

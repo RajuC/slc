@@ -132,14 +132,13 @@ const sortOptions = [
   },
 ];
 
-
 const getStatusLabel = (ad_status) => {
   const map = {
-    "Active": {
+    Active: {
       text: "Active",
       color: "success",
     },
-    "Inactive": {
+    Inactive: {
       text: "InActive",
       color: "error",
     },
@@ -147,7 +146,7 @@ const getStatusLabel = (ad_status) => {
       text: "Under Review",
       color: "warning",
     },
-    "Sold": {
+    Sold: {
       text: "Sold",
       color: "warning",
     },
@@ -186,6 +185,14 @@ const applyFilters = (ads, nameQuery, idQuery, filters) => {
       matches = false;
     }
     if (filters.inactiveAds && ad.is_ad_active) {
+      matches = false;
+    }
+
+    if (filters.slcAds && ad.post_by !== "slc") {
+      matches = false;
+    }
+
+    if (filters.nonSlcAds && ad.post_by !== "non_slc") {
       matches = false;
     }
 
@@ -236,6 +243,12 @@ const useStyles = makeStyles((theme) => ({
   inActiveAdsField: {
     marginLeft: theme.spacing(2),
   },
+  slcAdsField: {
+    marginLeft: theme.spacing(2),
+  },
+  nonSlcAdsField: {
+    marginLeft: theme.spacing(2),
+  },
   imageCell: {
     fontSize: 0,
     width: 68,
@@ -264,6 +277,8 @@ const Results = ({ className, ads, ...rest }) => {
     fuelType: null,
     activeAds: null,
     inActiveAds: null,
+    slcAds: null,
+    nonSlcAds: null,
   });
 
   const [open, setOpen] = React.useState(false);
@@ -352,6 +367,36 @@ const Results = ({ className, ads, ...rest }) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       inActiveAds: value,
+    }));
+  };
+
+  const handleSlcAdsChange = (event) => {
+    event.persist();
+
+    let value = null;
+
+    if (event.target.checked) {
+      value = true;
+    }
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      slcAds: value,
+    }));
+  };
+
+  const handleNonSlcAdsChange = (event) => {
+    event.persist();
+
+    let value = null;
+
+    if (event.target.checked) {
+      value = true;
+    }
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      nonSlcAds: value,
     }));
   };
 
@@ -463,7 +508,7 @@ const Results = ({ className, ads, ...rest }) => {
           </TextField>
         </Box>
         <Box mt={3} display="flex" alignItems="center">
-          <TextField
+          {/* <TextField
             className={classes.typeField}
             label="Type"
             name="type"
@@ -479,7 +524,7 @@ const Results = ({ className, ads, ...rest }) => {
                 {typeOption.name}
               </option>
             ))}
-          </TextField>
+          </TextField> */}
           <TextField
             className={classes.statusField}
             label="Status"
@@ -514,6 +559,28 @@ const Results = ({ className, ads, ...rest }) => {
               </option>
             ))}
           </TextField>
+          <FormControlLabel
+            className={classes.slcAdsField}
+            control={
+              <Checkbox
+                checked={!!filters.slcAds}
+                onChange={handleSlcAdsChange}
+                name="slcAds"
+              />
+            }
+            label="Slc Ads"
+          />
+          <FormControlLabel
+            className={classes.nonSlcAdsField}
+            control={
+              <Checkbox
+                checked={!!filters.nonSlcAds}
+                onChange={handleNonSlcAdsChange}
+                name="nonSlcAds"
+              />
+            }
+            label="Non Slc Ads"
+          />
           <FormControlLabel
             className={classes.activeAdsField}
             control={
@@ -583,7 +650,7 @@ const Results = ({ className, ads, ...rest }) => {
             <TableBody>
               {paginatedAds.map((ad) => {
                 const isAdSelected = selectedAds.includes(ad.id);
-                console.log("(Results ad)========================== ", ad );
+                console.log("(Results ad)========================== ", ad);
 
                 return (
                   <TableRow hover key={ad.id} selected={isAdSelected}>

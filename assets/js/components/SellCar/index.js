@@ -5,7 +5,7 @@ import { DropzoneAreaBase } from "material-ui-dropzone";
 
 import CustomButton from "../Layouts/CustomButton";
 import { Link as RouterLink } from "react-router-dom";
-import mapValues from "lodash/mapValues";
+// import mapValues from "lodash/mapValues";
 
 import {
   Box,
@@ -20,11 +20,11 @@ import {
   makeStyles,
   Container,
   InputAdornment,
-  Checkbox,
-  FormControl,
-  FormLabel,
-  FormGroup,
-  FormControlLabel,
+  //   Checkbox,
+  //   FormControl,
+  //   FormLabel,
+  //   FormGroup,
+  //   FormControlLabel,
   //   ImageList,
   //   ImageListItem,
   //   ImageListItemBar,
@@ -39,10 +39,10 @@ import { userService } from "../../services/userService";
 import { apiService } from "../../services/apiService";
 import { adUtilsService } from "../../services/adUtilsService";
 import { postAdActions } from "../../actions";
-import ListingHeaders from "./ListingHeaders";
-import GoogleMaps from "./GoogleMaps";
-import Header from "./Header";
-import DisplayImages from "./DisplayImages";
+import ListingHeaders from "../AddEditListing/ListingHeaders";
+import GoogleMaps from "../AddEditListing/GoogleMaps";
+import Header from "../AddEditListing/Header";
+import DisplayImages from "../AddEditListing/DisplayImages";
 import storage from "../../helpers/firebase";
 
 import { validationService } from "../../services/validationService";
@@ -74,33 +74,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-const FormLabelField = ({ label }) => (
-  <FormLabel component="legend">
-    {<Typography variant="button">{label}</Typography>}
-  </FormLabel>
-);
-
-const FormControlLabelField = ({
-  label,
-  checkedVal,
-  onFeatureChange,
-  name,
-}) => (
-  <FormControlLabel
-    control={
-      <Checkbox
-        checked={checkedVal}
-        onChange={(e) =>
-          onFeatureChange(e.target.name, label, e.target.checked)
-        }
-        name={name}
-        size="small"
-      />
-    }
-    label={<Typography variant="overline">{label}</Typography>}
-  />
-);
 
 const InputTextField = ({
   field,
@@ -179,7 +152,7 @@ const AutoCompleteField = ({
 // const valObj = { value: "", error: false, errorText: "" };
 const mandatoryText = " field cannot be empty";
 
-const AddEditListing = () => {
+const SellCar = () => {
   const { id } = useParams();
   const classes = useStyles();
   const [action, setAction] = useState("post");
@@ -187,9 +160,9 @@ const AddEditListing = () => {
   const dispatch = useDispatch();
   const [listing, setListing] = useState(adUtilsService.getInitialListing());
   const [origLocListing, setOrigLocListing] = useState("");
-  const [carFeatures, setCarFeatures] = useState(
-    adUtilsService.getCarFeatures()
-  );
+  //   const [carFeatures, setCarFeatures] = useState(
+  //     adUtilsService.getCarFeatures()
+  //   );
   // const [bikeFeatures, setBikeFeatures] = useState(
   //   adUtilsService.getBikeFeatures()
   // );
@@ -211,19 +184,19 @@ const AddEditListing = () => {
   //   attributes
   // );
 
-  const setFeatures = (type, features) => {
-    if (type == "car") {
-      setCarFeatures({
-        ...carFeatures,
-        ...features,
-      });
-    } else {
-      setBikeFeatures({
-        ...bikeFeatures,
-        ...features,
-      });
-    }
-  };
+  //   const setFeatures = (type, features) => {
+  //     if (type == "car") {
+  //       setCarFeatures({
+  //         ...carFeatures,
+  //         ...features,
+  //       });
+  //     } else {
+  //       setBikeFeatures({
+  //         ...bikeFeatures,
+  //         ...features,
+  //       });
+  //     }
+  //   };
 
   const fetchLatLong = async (place_id, listingDetailsObj) => {
     try {
@@ -482,57 +455,11 @@ const AddEditListing = () => {
       .catch((err) => console.warn(err));
   };
 
-  const handleFeatureChange = (key, label, data) => {
-    var featuresDetails = listingDetails.features
-      ? listingDetails.features.value
-      : listing.features.value;
-
-    let featureDetailValObj = "";
-    // let valObj = { ...listing.features };
-    if (listing.type.value == "car") {
-      setCarFeatures({
-        ...carFeatures,
-        [key]: { value: data, label: label },
-      });
-    }
-
-    if (listing.type.value == "bike") {
-      setBikeFeatures({
-        ...bikeFeatures,
-        [key]: { value: data, label: label },
-      });
-    }
-
-    if (data) {
-      featureDetailValObj = adUtilsService.updateValObjWithVal("features", {
-        ...featuresDetails,
-        [key]: { value: data, label: label },
-      });
-    } else {
-      delete featuresDetails[key];
-      featureDetailValObj = adUtilsService.updateValObjWithVal(
-        "features",
-        featuresDetails
-      );
-      if (Object.keys(featuresDetails).length === 0) {
-        featureDetailValObj = adUtilsService.updateValObjWithError(
-          "features",
-          "Please select your Car Features"
-        );
-      }
-    }
-    setListing({
-      ...listing,
-      features: featureDetailValObj,
-    });
-    dispatch(postAdActions.addEditListing("features", featureDetailValObj));
-  };
-
   const handleLocationListingChange = (listingDetailsObj) => {
-    console.log(
-      "(listingDetailsObj)========================== ",
-      listingDetailsObj
-    );
+    // console.log(
+    //   "(listingDetailsObj)========================== ",
+    //   listingDetailsObj
+    // );
     setListing({
       ...listing,
       location: listingDetailsObj,
@@ -570,13 +497,6 @@ const AddEditListing = () => {
     let listingDetailsObj = "";
 
     if (data) {
-      // if (key == "asking_price") {
-      // const price = Number(data).toLocaleString("en-IN", {
-      //   maximumFractionDigits: 0,
-      //   style: "currency",
-      //   currency: "INR",
-      // });
-
       listingDetailsObj = adUtilsService.updateValObjWithVal(key, data);
     } else {
       listingDetailsObj = adUtilsService.updateValObjWithError(
@@ -603,7 +523,7 @@ const AddEditListing = () => {
       //     model: adUtilsService.updateValObjWithVal("model", ""),
       //     variant: adUtilsService.updateValObjWithVal("variant", ""),
       //   });
-      setAttributes({ ...attributes, models: [], variants: [] });
+      // setAttributes({ ...attributes, models: [], variants: [] });
     } else if (key == "brand") {
       getSetModels(listing.type.value, data);
       setListing({
@@ -636,8 +556,6 @@ const AddEditListing = () => {
   //     currency: 'INR'
   // });
 
-  // handleInitialListingChange("post_ad_id", postAdId);
-
   const handleInitialListingChange = (postBy) => {
     let postAdId =
       postBy +
@@ -657,42 +575,28 @@ const AddEditListing = () => {
       "type",
       "car"
     );
+    const featuresListingDetailsObj = adUtilsService.updateValObjWithVal(
+        "features",
+        {}
+      );
 
     let initialListingDetails = {
       post_ad_id: postAdIdListingDetailsObj,
       post_by: postByListingDetailsObj,
       type: typeListingDetailsObj,
+      features: featuresListingDetailsObj
     };
     getSetBrands("car");
     setListing({
       ...listing,
       ...initialListingDetails,
-      // brand: adUtilsService.updateValObjWithVal("brand", ""),
-      // model: adUtilsService.updateValObjWithVal("model", ""),
-      // variant: adUtilsService.updateValObjWithVal("variant", ""),
     });
 
     dispatch(postAdActions.addInitialListing(initialListingDetails));
   };
 
   useEffect(() => {
-    if (currentUser && currentUser.loggedIn && currentUser.user) {
-      userService.getUser().then(
-        (user) => {
-          console.log("user already logged in... ");
-          if (id) {
-            getSetListing(id);
-          } else {
-            handleInitialListingChange("slc");
-          }
-        },
-        (error) => {
-          userService.logout();
-          // dispatch(userActions.userLogout("/postAd"));
-          console.log("user not logged in redirecting to login page...", error);
-        }
-      );
-    }
+    handleInitialListingChange("non_slc");
   }, []);
 
   const postAdSubmit = () => {
@@ -735,7 +639,7 @@ const AddEditListing = () => {
     }
   };
 
-  const title = action == "post" ? `Post Ad` : `Post Ad: ${id}`;
+  const title = action == "post" ? `Post Car Details` : `Post Ad: ${id}`;
   const cancelPath = action == "post" ? "/" : "/listings";
 
   return (
@@ -899,7 +803,7 @@ const AddEditListing = () => {
                       }}
                     />
                   </Grid>
-                  <Grid item md={3} sm={6} xs={12}>
+                  {/* <Grid item md={3} sm={6} xs={12}>
                     <AutoCompleteField
                       field="ad_status"
                       onFieldChange={handleListingChange}
@@ -907,299 +811,10 @@ const AddEditListing = () => {
                       val={listing.ad_status.value}
                       listing={listing}
                     />
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Box>
               <Divider />
-              <ListingHeaders title="Vehicle Features" />
-              {listing.features.error && (
-                <Typography
-                  variant="caption"
-                  gutterBottom
-                  className={classes.errorContent}
-                >
-                  {listing.features.errorText}
-                </Typography>
-              )}
-              <Box
-                display="flex"
-                // justifyContent="flex-end"
-                p={2}
-                className={classes.cardContent}
-              >
-                <Grid container spacing={3}>
-                  <Grid item md={2} sm={6} xs={12}>
-                    <FormControl
-                      component="fieldset"
-                      className={classes.formControl}
-                    >
-                      <FormLabelField label="Comfort" />
-                      <FormGroup>
-                        <FormControlLabelField
-                          label={carFeatures.acFront.label}
-                          checkedVal={carFeatures.acFront.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="acFront"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.acRear.label}
-                          checkedVal={carFeatures.acRear.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="acRear"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.backupCamera.label}
-                          checkedVal={carFeatures.backupCamera.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="backupCamera"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.cruiseControl.label}
-                          checkedVal={carFeatures.cruiseControl.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="cruiseControl"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.navigation.label}
-                          checkedVal={carFeatures.navigation.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="navigation"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.powerLocks.label}
-                          checkedVal={carFeatures.powerLocks.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="powerLocks"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.powerSteering.label}
-                          checkedVal={carFeatures.powerSteering.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="powerSteering"
-                        />
-                      </FormGroup>
-                    </FormControl>
-                  </Grid>
-                  <Grid item md={2} sm={6} xs={12}>
-                    <FormControl
-                      component="fieldset"
-                      className={classes.formControl}
-                    >
-                      <FormLabelField label="Entertainment" />
-                      <FormGroup>
-                        <FormControlLabelField
-                          label={carFeatures.amFmSterio.label}
-                          checkedVal={carFeatures.amFmSterio.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="amFmSterio"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.cdPlayer.label}
-                          checkedVal={carFeatures.cdPlayer.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="cdPlayer"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.dvdSystem.label}
-                          checkedVal={carFeatures.dvdSystem.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="dvdSystem"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.mp3Player.label}
-                          checkedVal={carFeatures.mp3Player.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="mp3Player"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.portableAudio.label}
-                          checkedVal={carFeatures.portableAudio.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="portableAudio"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.premiumAudio.label}
-                          checkedVal={carFeatures.premiumAudio.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="premiumAudio"
-                        />
-                      </FormGroup>
-                    </FormControl>
-                  </Grid>
-                  <Grid item md={2} sm={6} xs={12}>
-                    <FormControl
-                      component="fieldset"
-                      className={classes.formControl}
-                    >
-                      <FormLabelField label="Safety" />
-                      <FormGroup>
-                        <FormControlLabelField
-                          label={carFeatures.airbagDriver.label}
-                          checkedVal={carFeatures.airbagDriver.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="airbagDriver"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.airbagPassenger.label}
-                          checkedVal={carFeatures.airbagPassenger.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="airbagPassenger"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.antilockBrakes.label}
-                          checkedVal={carFeatures.antilockBrakes.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="antilockBrakes"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.bluetooth.label}
-                          checkedVal={carFeatures.bluetooth.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="bluetooth"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.handsFree.label}
-                          checkedVal={carFeatures.handsFree.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="handsFree"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.fogLights.label}
-                          checkedVal={carFeatures.fogLights.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="fogLights"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.securitySystem.label}
-                          checkedVal={carFeatures.securitySystem.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="securitySystem"
-                        />
-                      </FormGroup>
-                    </FormControl>
-                  </Grid>
-                  <Grid item md={2} sm={6} xs={12}>
-                    <FormControl
-                      component="fieldset"
-                      className={classes.formControl}
-                    >
-                      <FormLabelField label="Seats" />
-                      <FormGroup>
-                        <FormControlLabelField
-                          label={carFeatures.bucketSeats.label}
-                          checkedVal={carFeatures.bucketSeats.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="bucketSeats"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.heatedSeats.label}
-                          checkedVal={carFeatures.heatedSeats.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="heatedSeats"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.leatherInterior.label}
-                          checkedVal={carFeatures.leatherInterior.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="leatherInterior"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.memorySeats.label}
-                          checkedVal={carFeatures.memorySeats.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="memorySeats"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.powerSeats.label}
-                          checkedVal={carFeatures.powerSeats.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="powerSeats"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.thirdRowSeats.label}
-                          checkedVal={carFeatures.thirdRowSeats.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="thirdRowSeats"
-                        />
-                      </FormGroup>
-                    </FormControl>
-                  </Grid>
-                  <Grid item md={2} sm={6} xs={12}>
-                    <FormControl
-                      component="fieldset"
-                      className={classes.formControl}
-                    >
-                      <FormLabelField label="Windows" />
-                      <FormGroup>
-                        <FormControlLabelField
-                          label={carFeatures.powerWindows.label}
-                          checkedVal={carFeatures.powerWindows.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="powerWindows"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.windowsDefroster.label}
-                          checkedVal={carFeatures.windowsDefroster.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="windowsDefroster"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.rearWindow.label}
-                          checkedVal={carFeatures.rearWindow.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="rearWindow"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.wiperTintedGlass.label}
-                          checkedVal={carFeatures.wiperTintedGlass.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="wiperTintedGlass"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.sunroof.label}
-                          checkedVal={carFeatures.sunroof.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="sunroof"
-                        />
-                      </FormGroup>
-                    </FormControl>
-                  </Grid>
-                  <Grid item md={2} sm={6} xs={12}>
-                    <FormControl
-                      component="fieldset"
-                      className={classes.formControl}
-                    >
-                      <FormLabelField label="Others" />
-                      <FormGroup>
-                        <FormControlLabelField
-                          label={carFeatures.alloyWheels.label}
-                          checkedVal={carFeatures.alloyWheels.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="alloyWheels"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.keylessEntry.label}
-                          checkedVal={carFeatures.keylessEntry.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="keylessEntry"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.towPackage.label}
-                          checkedVal={carFeatures.towPackage.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="towPackage"
-                        />
-                        <FormControlLabelField
-                          label={carFeatures.trailerHitch.label}
-                          checkedVal={carFeatures.trailerHitch.value}
-                          onFeatureChange={handleFeatureChange}
-                          name="trailerHitch"
-                        />
-                      </FormGroup>
-                    </FormControl>
-                  </Grid>
-                </Grid>
-              </Box>
 
               <ListingHeaders title="Vehicle Images" />
               {listing.images && listing.images.error && (
@@ -1441,7 +1056,7 @@ const AddEditListing = () => {
                     color="primary"
                     size="small"
                     variant="contained"
-                    disabled={!currentUser.loggedIn}
+                    // disabled={!currentUser.loggedIn}
                     className={classes.submit}
                     onClick={postAdSubmit}
                   >
@@ -1467,4 +1082,4 @@ const AddEditListing = () => {
   );
 };
 
-export default AddEditListing;
+export default SellCar;

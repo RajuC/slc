@@ -21,13 +21,14 @@ defmodule Slc.Ads.Ad do
     field :body_type, :string, default: "NA"
     field :transmission, :string, default: "NA"
     field :variant, :string, default: "NA"
-    field :type, :string
+    field :type, :string, default: "car"
     field :views, :integer, default: 0
     field :year, :string
     field :location, :map
     field :seller_name, :string
     field :seller_phone, :string
     field :seller_email, :string
+    field :post_by, :string, default: "slc"  ## slc or non_slc
 
     belongs_to :user, Slc.Users.User
 
@@ -61,7 +62,8 @@ defmodule Slc.Ads.Ad do
       :display_image_url,
       :ad_status,
       :is_ad_active,
-      :location
+      :location,
+      :post_by
     ])
     |> put_change(:ad_active_timestamp, DateTime.utc_now() |> DateTime.truncate(:second))
     |> validate_required([
@@ -88,7 +90,8 @@ defmodule Slc.Ads.Ad do
       :display_image_url,
       :ad_status,
       :is_ad_active,
-      :location
+      :location,
+      :post_by
     ])
   end
 end

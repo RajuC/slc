@@ -27,10 +27,11 @@ import AllAds from "./components/Ads/AllAds";
 import { makeStyles } from "@material-ui/core/styles";
 import ActiveAds from "./components/Ads/ActiveAds";
 import MainAd from "./components/Ads/MainAd";
+import SellCar from "./components/SellCar";
+
 // import Account from './components/Account';
 import "../css/app.css";
 import SideBar from "./components/Ads/ActiveAds/SideBar";
-
 
 const useStyles = makeStyles((theme) => ({
   // alert: {
@@ -76,6 +77,11 @@ const App = () => {
           <Route exact path="/sideBar">
             <SideBar />
           </Route>
+          <Route exact path="/sell_car">
+            <NavMenu />
+            <SellCar />
+            <Footer />
+          </Route>
           <Route exact path="/404">
             <NavMenu />
             <NotFound />
@@ -84,7 +90,11 @@ const App = () => {
           <PrivateRoute component={PostAd} path="/postAd" exact />
           <PrivateRoute component={AllAds} path="/listings" exact />
           <PrivateRoute component={Register} path="/register" exact />
-          <PrivateRoute component={AddEditListing} path="/listing/:id/edit" exact />
+          <PrivateRoute
+            component={AddEditListing}
+            path="/listing/:id/edit"
+            exact
+          />
           <PrivateRoute component={MainAd} path="/listing/:id/view" exact />
           <PrivateRoute component={AddEditListing} path="/post/listing" exact />
           {/* <PrivateRoute component={MainAd} path="/listing/:id" exact /> */}

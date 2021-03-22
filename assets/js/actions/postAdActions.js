@@ -5,6 +5,7 @@ import { history } from "../helpers";
 import { apiService } from "../services/apiService";
 
 export const postAdActions = {
+  addInitialListing,
   addEditListing,
   addAskingPrice,
   addSellerNotes,
@@ -62,7 +63,6 @@ function updateAdDetails(adDetails, path) {
     };
 
     updateAd();
-
   };
 
   function request(adDetails) {
@@ -76,7 +76,7 @@ function updateAdDetails(adDetails, path) {
   }
 }
 
-function submitAdDetails(ad, path) {
+function submitAdDetails(postBy, ad, path) {
   console.log(
     "(postAdActions)========================== postAdDetails",
     ad,
@@ -87,7 +87,12 @@ function submitAdDetails(ad, path) {
 
     const submitAd = async () => {
       try {
-        const response = await apiService.postAd(ad);
+        var response = "";
+        if (postBy == "slc") {
+          response = await apiService.postAd(ad);
+        } else {
+          response = await apiService.postNonSlcAd(ad);
+        }
         dispatch(success(response.data.id));
         console.log("Post Ad success", response.data.id);
         history.push(path);
@@ -144,6 +149,12 @@ function submitAdDetails(ad, path) {
   function failure(error) {
     return { type: postAdConstants.POST_AD_FAILURE, error };
   }
+}
+
+addInitialListing;
+
+function addInitialListing(initialListingDetails) {
+  return { type: postAdConstants.ADD_INITIAL_LISTING, initialListingDetails };
 }
 
 function addEditListing(key, listingDetails) {

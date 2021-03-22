@@ -24,6 +24,7 @@ defmodule SlcWeb.Router do
 
     post("/sign_in", UserController, :sign_in)
     post("/sign_up", UserController, :sign_up)
+    post("/post_non_slc_ad", AdController, :create_non_slc_ad)
 
     ## display active ads (active)
     get("/listings/active", AdController, :active_ads)
@@ -42,7 +43,7 @@ defmodule SlcWeb.Router do
   scope "/api/v1", SlcWeb do
     pipe_through([:api, :jwt_authenticated])
 
-    post("/post_ad", AdController, :create)
+    post("/post_slc_ad", AdController, :create_slc_ad)
     post("/update_ad", AdController, :update)
     ## display all listings (active and inactive)
     get("/listings", AdController, :all_ads)

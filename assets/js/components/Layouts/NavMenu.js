@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 const NavMenu = () => {
   const classes = useStyles();
   const state = useSelector((state) => state);
-  // console.log("(NavMenu)========================== state", state);
+  console.log("(NavMenu)========================== state", state);
   // const currentUser = useSelector((state) => state.currentUser);
   // const dispatch = useDispatch();
   // const theme = useTheme();

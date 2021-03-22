@@ -102,7 +102,7 @@ function validateUpdateListing(postAd) {
   }
 }
 
-function validateAddListing(postAd) {
+function validateAddListing(postBy, postAd) {
   let isValid = true;
   var initialListing = adUtilsService.getInitialListing();
   var listingObj = { ...initialListing, ...postAd };
@@ -156,13 +156,21 @@ function validateAddListing(postAd) {
         };
       }
       if (key == "features") {
-        finalListingObj = {
-          ...finalListingObj,
-          [key]: adUtilsService.updateValObjWithError(
-            key,
-            "Please select your Car Features!"
-          ),
-        };
+        if (postBy == "non_slc") {
+          finalListingObj = {
+            ...finalListingObj,
+            [key]: adUtilsService.updateValObjWithVal(key, {}),
+          };
+          isValid = true;
+        } else {
+          finalListingObj = {
+            ...finalListingObj,
+            [key]: adUtilsService.updateValObjWithError(
+              key,
+              "Please select your Car Features!"
+            ),
+          };
+        }
       }
     }
   });

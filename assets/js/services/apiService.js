@@ -9,6 +9,7 @@ export const apiService = {
   listBikeModels,
   listCarVariants,
   listUsers,
+  postNonSlcAd,
   postAd,
   updateAd,
   listAllAds,
@@ -26,8 +27,8 @@ function getLatLong(place_id) {
   );
 }
 
-function listCarBrands(type) {
-  return axios.get(`/car_attributes/brands/${type}`);
+function listCarBrands() {
+  return axios.get(`/car_attributes/brands/car`);
 }
 
 function listBikeBrands(type) {
@@ -52,11 +53,18 @@ function listUsers() {
   });
 }
 
+function postNonSlcAd(ad) {
+  return axios.post("/post_non_slc_ad", ad, {
+    headers: { "Content-Type": "application/json" },
+  });
+}
+
 function postAd(ad) {
-  return axios.post("/post_ad", ad, {
+  return axios.post("/post_slc_ad", ad, {
     headers: { ...authHeader(), "Content-Type": "application/json" },
   });
 }
+
 
 function updateAd(adDetails) {
   return axios.post("/update_ad", adDetails, {

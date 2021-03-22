@@ -9,13 +9,13 @@ import Box from '@material-ui/core/Box';
 
 
 const useStyles = makeStyles((theme) => ({
-    icon: {
-      marginRight: theme.spacing(2),
-    },
+    // icon: {
+    //   marginRight: theme.spacing(2),
+    // },
     footer: {
       backgroundColor: theme.palette.background.paper,
-      padding: theme.spacing(6),
-      marginTop: theme.spacing(5),
+      padding: theme.spacing(2),
+      marginTop: theme.spacing(1),
     },
   }));
 
@@ -24,10 +24,32 @@ function Copyright() {
       <Typography variant="body2" color="textSecondary" align="center">
         {'Copyright © '}
         <Link color="inherit" href="/">
-          www.365kars.com
-          </Link>{' '}
+          www.srilaxmicars.com
+          </Link>
+          {' '}
         {new Date().getFullYear()}
-        {'.'}
+        {'. | '}
+        <Link color="inherit" href="/about_us">
+          About Us
+          </Link>
+        {' | '}
+        <Link color="inherit" href="/contact_us">
+          Contact Us
+          </Link>
+      </Typography>
+    );
+  }
+
+  function AboutUs() {
+    return (
+      <Typography variant="body2" color="textSecondary" align="center">
+        <Link color="inherit" href="/terms">
+          Terms of Use
+          </Link>
+          {' | '}
+          <Link color="inherit" href="/policy">
+          Privacy Policy
+          </Link>
       </Typography>
     );
   }
@@ -56,12 +78,11 @@ const footers = [
 
 
 
-  const Footer = (props) => {
+  const Footer = () => {
     const classes = useStyles();
-    const { history } = props;
     return (
         <Container maxWidth="lg" component="footer" className={classes.footer}>
-        <Grid container spacing={4} justify="space-evenly">
+        {/* <Grid container spacing={4} justify="space-evenly">
           {footers.map((footer) => (
             <Grid item xs={6} sm={3} key={footer.title}>
               <Typography variant="h6" color="textPrimary" gutterBottom>
@@ -78,9 +99,12 @@ const footers = [
               </ul>
             </Grid>
           ))}
-        </Grid>
-        <Box mt={5}>
+        </Grid> */}
+        <Box mt={2}>
           <Copyright />
+        </Box>
+        <Box mt={2}>
+          <AboutUs />
         </Box>
       </Container>
     );

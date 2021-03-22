@@ -11,6 +11,18 @@ export default function postAd(state = initialState, action) {
   let postAdDetails = { ...state.details };
   let postAdFeatures = { ...postAdDetails.features };
   switch (action.type) {
+
+    
+    case postAdConstants.ADD_INITIAL_LISTING:
+      return {
+        posted: false,
+        details: {
+          ...postAdDetails,
+          ...action.initialListingDetails,
+        },
+      };
+
+
     case postAdConstants.ADD_EDIT_LISTING:
       return {
         posted: false,

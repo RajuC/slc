@@ -99,7 +99,7 @@ function getYears() {
 }
 
 function getTypes() {
-  let typesArr = ["car", "bike"];
+  let typesArr = ["car"];
   return typesArr;
 }
 
@@ -119,7 +119,8 @@ function getFuelTypes() {
 }
 
 function getBodyTypes() {
-  let bodyTypeArr = ["Compact", "Sedan", "Hatch pack"];
+  // let bodyTypeArr = ["Compact", "Sedan", "Hatch pack"];
+  let bodyTypeArr = ["Hatchback", "Sedan", "SUV", "Crossover","Mini Van", "MPV", "Coupe", "Convertible", "Microcar", "Truck"];
   return bodyTypeArr;
 }
 

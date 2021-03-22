@@ -3,11 +3,12 @@ defmodule SlcWeb.AdController do
 
   alias Slc.{Ads, Utils}
   alias Slc.Ads.Ad
+  alias Slc.Users
   alias Slc.Users.User
   alias Slc.Auth.Guardian
   action_fallback SlcWeb.FallbackController
 
-  def create(conn, %{"ad" => %{"location" => location} = ad_params}) do
+  def create_slc_ad(conn, %{"ad" => %{"location" => location} = ad_params}) do
     with {:ok, %User{} = user} <- Guardian.Plug.current_resource(conn),
          {:ok, location_map} <- Utils.frame_location(location),
          {:ok, %Ad{} = ad} <- Ads.create_ad(user, Map.put(ad_params, "location", location_map)) do
@@ -16,6 +17,17 @@ defmodule SlcWeb.AdController do
       |> render("show.json", ad: ad)
     end
   end
+
+  def create_non_slc_ad(conn, %{"ad" => %{"location" => location} = ad_params}) do
+    with {:ok, %User{} = user} <- Users.get_user(1),
+         {:ok, location_map} <- Utils.frame_location(location),
+         {:ok, %Ad{} = ad} <- Ads.create_ad(user, Map.put(ad_params, "location", location_map)) do
+      conn
+      |> put_status(:created)
+      |> render("show.json", ad: ad)
+    end
+  end
+
 
   def active_ads(conn, _params) do
     ads = Ads.list_active_ads()

@@ -18,6 +18,18 @@ defmodule Slc.Utils do
 
     location_map =
       case String.split(location, ", ") do
+        [subRegion1, subRegion2, region, city, state, "India"] ->
+          %{
+            sub_region: subRegion1 <> " " <> subRegion2,
+            region: region,
+            city: city,
+            state: state,
+            location_str: location,
+            place_id: place_id,
+            lat: lat,
+            long: long
+          }
+
         [subRegion, region, city, state, "India"] ->
           %{
             sub_region: subRegion,

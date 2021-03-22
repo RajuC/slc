@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-
+import CustomButtom from "../Layouts/CustomButton"
 import {
-    Button,
-    Typography,
-    makeStyles,
-    Container,
-    CssBaseline,
-    Grid
+  Button,
+  Typography,
+  makeStyles,
+  Container,
+  CssBaseline,
+  Grid,
+} from "@material-ui/core";
 
-  } from "@material-ui/core";
-
-import Scroll from '../Layouts/Scroll';
+import Scroll from "../Layouts/Scroll";
 // import Ads from '../Inventory/Ads';
 // import { withRouter } from 'react-router-dom';
-import VehicleTypeTabs from './VehicleTypeTabs';
+import VehicleTypeTabs from "./VehicleTypeTabs";
 // import LogoGrid from './LogoGrid';
 
 const useStyles = makeStyles((theme) => ({
-
   icon: {
     marginRight: theme.spacing(2),
   },
@@ -34,18 +32,16 @@ const useStyles = makeStyles((theme) => ({
   ads: {
     padding: 20,
     // backgroundColor: 'red',
-  }
+  },
 }));
-
-
 
 const Home = () => {
   const classes = useStyles();
-  const state = useSelector(state => state);
+  const state = useSelector((state) => state);
   // const currentUser = useSelector(state => state.currentUser);
   // const dispatch = useDispatch();
 
-//   const { history } = props;
+  //   const { history } = props;
   return (
     <React.Fragment>
       <CssBaseline />
@@ -53,29 +49,44 @@ const Home = () => {
         {/* Hero unit */}
         <div className={classes.heroContent}>
           <Container maxWidth="sm">
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+            <Typography
+              component="h2"
+              variant="h3"
+              align="center"
+              color="textPrimary"
+              gutterBottom
+            >
               Sri Laxmi Cars
             </Typography>
-            <Typography variant="h5" align="center" color="textSecondary">
-            Phone: +91 9908109814
+            <Typography variant="h6" align="center" color="textPrimary">
+              Best local dealer to sell or buy used cars with one phone call
             </Typography>
-            <Typography variant="h5" align="center" color="textSecondary">
-            Email: ckumar.slc@gmail.com
+            <Typography variant="h6" align="center" color="textPrimary">
+              Phone: +91 9908109814
             </Typography>
-            {/* <div className={classes.heroButtons}>
+            {/* <Typography variant="h6" align="center" color="textSecondary">
+              Email: ckumar.slc@gmail.com
+            </Typography> */}
+            <Typography variant="subtitle1" align="center" color="textSecondary">
+              Address: NFC Main Rd, APHB Colony, Moula Ali
+            </Typography>
+
+            
+
+            <div className={classes.heroButtons}>
               <Grid container spacing={2} justify="center">
                 <Grid item>
-                  <Button variant="contained" color="primary" href="/inventory/cars">
-                    Buy a Car
-                  </Button>
+                  <CustomButtom variant="contained" color="primary" href="/sell_car">
+                    Sell a Car
+                  </CustomButtom>
                 </Grid>
                 <Grid item>
-                  <Button variant="contained" color="primary" href="/inventory/bikes">
-                    Buy a Bike
-                  </Button>
+                  <CustomButtom variant="contained" color="primary" href="/listings/cars">
+                    Buy a Car
+                  </CustomButtom>
                 </Grid>
               </Grid>
-            </div> */}
+            </div>
           </Container>
         </div>
 
@@ -93,11 +104,10 @@ const Home = () => {
           <Ads />
         </Container> */}
 
-        
         <Scroll showBelow={250} />
       </main>
     </React.Fragment>
   );
-}
+};
 
 export default Home;

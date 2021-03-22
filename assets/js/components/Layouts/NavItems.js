@@ -27,11 +27,11 @@ const mobileSizeMenuItems = [
     path: "/listings/cars",
     id: "car listings",
   },
-  {
-    title: "Bikes",
-    path: "/listings/bikes",
-    id: "bike listings",
-  },
+  // {
+  //   title: "Bikes",
+  //   path: "/listings/bikes",
+  //   id: "bike listings",
+  // },
   {
     title: "Register",
     path: "/register",
@@ -142,6 +142,12 @@ const NavItems = (props) => {
               <Button size="small" variant="contained" href="/">
                 Home
               </Button>
+              <Button size="small" variant="contained" href="/listings/cars">
+                Buy
+              </Button>
+              <CustomButton size="small" variant="contained" href="/sell_car">
+                Sell
+              </CustomButton>
               <Button size="small" variant="contained" href="/login">
                 Login
               </Button>
@@ -158,11 +164,14 @@ const NavItems = (props) => {
               <Button size="small" variant="contained" href="/listings/cars">
                 Cars
               </Button>
-              <Button size="small" variant="contained" href="/listings/bikes">
+              {/* <Button size="small" variant="contained" href="/listings/bikes">
                 Bikes
-              </Button>
+              </Button> */}
+              <CustomButton size="small" variant="contained" href="/sell_car">
+                Sell
+              </CustomButton>
               <CustomButton size="small" variant="contained" href="/post/listing">
-                Post Ad
+                Post slc ad
               </CustomButton>
               <Button size="small" variant="contained" href="/listings">
                 Ads
