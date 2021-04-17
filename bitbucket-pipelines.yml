@@ -1,0 +1,6 @@
+image: srilaxmicars/build_deployment:1.0
+pipelines:
+  default:
+    - step:
+        script:
+          - mix test
